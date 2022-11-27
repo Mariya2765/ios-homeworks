@@ -30,9 +30,6 @@ class FeedViewController: UIViewController {
         button.addTarget(self, action: #selector(buttonAction) , for: .touchUpInside)
         self.view.addSubview(button)
 
-
-        // self.createSecondNavigationController?.pushViewController(PostViewController, animated: true)
-       // PostViewController.titlePost = post.title
     }
 
 
