@@ -13,7 +13,6 @@ class FeedViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("viewDidload 1")
         self.view.backgroundColor = .yellow
         let button = UIButton(frame: CGRect(x: 100, y: 100, width: 200, height: 60))
         button.backgroundColor = UIColor.green
