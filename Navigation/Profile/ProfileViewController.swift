@@ -20,11 +20,18 @@ class ProfileViewController:
         view.addSubview(header)
         title = "Profile"
 
-        header.showStatusButton.addTarget(self, action: #selector(buttonPressed) , for: .touchUpInside)
+        header.setStatusButton.addTarget(self, action: #selector(buttonPressed) , for: .touchUpInside)
+        header.textField.addTarget(self, action: #selector(statusTextChanged) , for: .editingChanged )
     }
 
     @objc func buttonPressed() {
+        header.statusLabel.text = statusText
         print(header.statusLabel.text ?? "not status")
+    }
+    private var statusText: String = ""
+    @objc func statusTextChanged(_ textField: UITextField) {
+        statusText = textField.text ?? "error"
+
     }
 
     override func viewWillLayoutSubviews() {
