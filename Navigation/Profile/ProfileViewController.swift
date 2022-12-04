@@ -29,7 +29,7 @@ class ProfileViewController: UIViewController {
 
     }
     
-    @objc func statusTextChanged(_ textField: UITextField) {
+    @objc private func statusTextChanged(_ textField: UITextField) {
         statusText = textField.text ?? "error"
         
     }

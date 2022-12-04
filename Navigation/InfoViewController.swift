@@ -21,7 +21,7 @@ class InfoViewController: UIViewController {
         self.view.addSubview(buttonInfo)
     }
 
-    @objc func buttonActionInfo() {
+    @objc private func buttonActionInfo() {
 
         let alertController = UIAlertController(title: "Проголосуйте", message: "Вам понравился пост?", preferredStyle: .alert)
         alertController.addAction(

@@ -22,7 +22,7 @@ class FeedViewController: UIViewController {
         self.view.addSubview(button)
     }
 
-    @objc func buttonAction() {
+    @objc private func buttonAction() {
 
         let postVc = PostViewController(post: self.post)
         navigationController?.pushViewController(postVc, animated: true)

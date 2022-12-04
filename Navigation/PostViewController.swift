@@ -25,7 +25,7 @@ class PostViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(barButtonAction))
     }
 
-    @objc func barButtonAction() {
+    @objc private func barButtonAction() {
         let infoVc = InfoViewController()
         present(infoVc, animated: true)
     }
