@@ -12,22 +12,32 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
     func createFeedViewController() -> UINavigationController {
-        let fnc = UINavigationController(rootViewController: FeedViewController())
-        fnc.tabBarItem = UITabBarItem(title: "Лента" , image: UIImage (systemName: "rectangle.grid.2x2" ), tag: 0)
-        return fnc
+        let feedNavigationController = UINavigationController(rootViewController: FeedViewController())
+        feedNavigationController.tabBarItem = UITabBarItem(title: "Лента" , image: UIImage (systemName: "house.fill" ), tag: 0)
+        return feedNavigationController
     }
 
     func createProfileViewController() -> UINavigationController {
-        let snc = UINavigationController(rootViewController: ProfileViewController())
-        snc.tabBarItem = UITabBarItem(title: "Профиль" , image: UIImage (systemName: "person.crop.circle" ), tag: 0)
-        return snc
+        let profileNavigationController = UINavigationController(rootViewController: ProfileViewController())
+        profileNavigationController.tabBarItem = UITabBarItem(title: "Профиль" , image: UIImage (systemName: "person.fill" ), tag: 0)
+
+        let appearanceProfile = UINavigationBarAppearance()
+        appearanceProfile.configureWithDefaultBackground()
+        profileNavigationController.navigationBar.standardAppearance = appearanceProfile
+        profileNavigationController.navigationBar.scrollEdgeAppearance = appearanceProfile
+        
+        return profileNavigationController
     }
 
-
     func createTabBarController() -> UITabBarController {
-        let tabBar = UITabBarController()
-        tabBar.viewControllers = [createFeedViewController(), createProfileViewController()]
-        return tabBar
+        let tabBarController = UITabBarController()
+        let tabBarAppearance = UITabBarAppearance()
+        tabBarAppearance.configureWithDefaultBackground()
+        tabBarAppearance.backgroundColor = .white
+        tabBarController.tabBar.standardAppearance = tabBarAppearance
+        tabBarController.tabBar.scrollEdgeAppearance = tabBarAppearance
+        tabBarController.viewControllers = [createFeedViewController(), createProfileViewController()]
+        return tabBarController
     }
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
