@@ -8,39 +8,40 @@
 import Foundation
 import UIKit
 
-class ProfileViewController:
-    UIViewController {
+class ProfileViewController: UIViewController {
 
-    private let header = ProfileHeaderView()
-
-
+    private let headerView = ProfileHeaderView()
+    private var statusText: String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .lightGray
-        view.addSubview(header)
+        view.addSubview(headerView)
         title = "Profile"
-
-        header.setStatusButton.addTarget(self, action: #selector(buttonPressed) , for: .touchUpInside)
-        header.textField.addTarget(self, action: #selector(statusTextChanged) , for: .editingChanged )
+        
+        headerView.setStatusButton.addTarget(self, action: #selector(buttonPressed) , for: .touchUpInside)
+        headerView.textField.addTarget(self, action: #selector(statusTextChanged) , for: .editingChanged )
     }
+    
+    @objc private func buttonPressed() {
+        headerView.statusLabel.text = statusText
+        headerView.endEditing(true)
 
-    @objc func buttonPressed() {
-        header.statusLabel.text = statusText
-        print(header.statusLabel.text ?? "not status")
     }
-    private var statusText: String = ""
+    
     @objc func statusTextChanged(_ textField: UITextField) {
         statusText = textField.text ?? "error"
-
+        
     }
-
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        header.frame = view.frame
-        header.frame = .init(
+        headerView.frame = view.frame
+        headerView.frame = .init(
             x: view.safeAreaInsets.left,
             y: view.safeAreaInsets.top,
             width: view.frame.width - view.safeAreaInsets.left - view.safeAreaInsets.right,
-            height: 200)
+            height: 200
+        )
     }
 }
