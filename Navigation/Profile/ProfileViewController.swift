@@ -18,9 +18,17 @@ class ProfileViewController: UIViewController {
         view.backgroundColor = .lightGray
         view.addSubview(headerView)
         title = "Profile"
-        
+
         headerView.setStatusButton.addTarget(self, action: #selector(buttonPressed) , for: .touchUpInside)
         headerView.textField.addTarget(self, action: #selector(statusTextChanged) , for: .editingChanged )
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            headerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            headerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            headerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
     
     @objc private func buttonPressed() {
@@ -33,15 +41,6 @@ class ProfileViewController: UIViewController {
         statusText = textField.text ?? "error"
         
     }
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        headerView.frame = view.frame
-        headerView.frame = .init(
-            x: view.safeAreaInsets.left,
-            y: view.safeAreaInsets.top,
-            width: view.frame.width - view.safeAreaInsets.left - view.safeAreaInsets.right,
-            height: 200
-        )
+
     }
-}
+

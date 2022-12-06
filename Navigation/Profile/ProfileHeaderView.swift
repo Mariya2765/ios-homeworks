@@ -16,6 +16,7 @@ class ProfileHeaderView: UIView {
         label.textColor = .gray
         label.textAlignment = .left
         label.text = "Waiting for something..."
+        label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
     }()
@@ -30,7 +31,8 @@ class ProfileHeaderView: UIView {
         button.layer.shadowColor = UIColor.black.cgColor
         button.setTitleColor(.white, for: .normal)
         button.setTitleColor(.lightGray, for: .highlighted)
-        
+        button.translatesAutoresizingMaskIntoConstraints = false
+
         return button
         
     }()
@@ -44,6 +46,7 @@ class ProfileHeaderView: UIView {
         tf.font = .systemFont(ofSize: 15)
         tf.textColor = .black
         tf.textAlignment = .center
+        tf.translatesAutoresizingMaskIntoConstraints = false
         
         return tf
         
@@ -54,20 +57,23 @@ class ProfileHeaderView: UIView {
         label.font = .boldSystemFont(ofSize: 18)
         label.textColor = .black
         label.textAlignment = .left
-        label.text = "Hipster Cat"
+        label.text = "Hipster Dog"
+        label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
         
     }()
     
-    private var dogImageView: UIImageView = {
+    var dogImageView: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "dog")
         image.layer.borderWidth = 3
         image.layer.borderColor = UIColor.white.cgColor
-        image.layer.cornerRadius = 55
-        image.clipsToBounds = true
+        image.layer.cornerRadius = 110 / 2
+        image.layer.masksToBounds = true
         image.contentMode = .scaleAspectFill
+        image.translatesAutoresizingMaskIntoConstraints = false
+
         
         return image
         
@@ -81,26 +87,40 @@ class ProfileHeaderView: UIView {
         addSubview(dogImageView)
         addSubview(setStatusButton)
         addSubview(textField)
-        
+
+        NSLayoutConstraint.activate([
+
+            dogImageView.widthAnchor.constraint(equalToConstant: 110),
+            dogImageView.heightAnchor.constraint(equalToConstant: 110),
+            dogImageView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            dogImageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
+
+            profileLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 27),
+            profileLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 150),
+            profileLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
+
+            setStatusButton.topAnchor.constraint(equalTo: dogImageView.bottomAnchor, constant: 40),
+            setStatusButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            setStatusButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
+
+            statusLabel.bottomAnchor.constraint(equalTo: profileLabel.topAnchor, constant: 81),
+            statusLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 150),
+            statusLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
+
+            textField.bottomAnchor.constraint(equalTo: setStatusButton.topAnchor, constant: -10),
+            textField.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 150),
+            textField.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            textField.heightAnchor.constraint(equalToConstant: 40)
+
+        ])
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    override func layoutSubviews() {
-        profileLabel.frame = CGRect(x: 145, y: 27, width: frame.width - 16, height: 35)
-        statusLabel.frame = CGRect(x: 145, y: 80, width: frame.width - 16, height: 15)
-        dogImageView.frame = CGRect(x: 16, y: 16, width: 110, height: 110)
-        setStatusButton.frame = CGRect(x: 16, y:  150, width: frame.width - 32, height: 50)
-        textField.frame = CGRect(x: 145, y: 100, width: frame.width - 16 - 145 , height: 40)
-        
-    }
-    
+
     func configure(title: String, image: UIImage) {
         profileLabel.text = title
         dogImageView.image = image
     }
-    
-    
 }
