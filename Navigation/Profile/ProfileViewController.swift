@@ -11,7 +11,6 @@ import UIKit
 class ProfileViewController: UIViewController {
 
     private let headerView = ProfileHeaderView()
-    private var statusText: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,10 +18,12 @@ class ProfileViewController: UIViewController {
         view.addSubview(headerView)
         title = "Profile"
 
-        headerView.setStatusButton.addTarget(self, action: #selector(buttonPressed) , for: .touchUpInside)
-        headerView.textField.addTarget(self, action: #selector(statusTextChanged) , for: .editingChanged )
         headerView.translatesAutoresizingMaskIntoConstraints = false
 
+        addConstraints()
+    }
+
+    func addConstraints() {
         NSLayoutConstraint.activate([
             headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             headerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -30,17 +31,6 @@ class ProfileViewController: UIViewController {
             headerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
-    
-    @objc private func buttonPressed() {
-        headerView.statusLabel.text = statusText
-        headerView.endEditing(true)
 
-    }
-    
-    @objc private func statusTextChanged(_ textField: UITextField) {
-        statusText = textField.text ?? "error"
-        
-    }
-
-    }
+}
 
