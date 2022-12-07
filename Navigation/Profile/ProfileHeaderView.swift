@@ -78,6 +78,22 @@ class ProfileHeaderView: UIView {
         return image
         
     }()
+
+    let friendButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = UIColor.systemBlue
+        button.setTitle("Add friend", for: .normal)
+        button.layer.cornerRadius = 4
+        button.layer.shadowOpacity = 0.7
+        button.layer.shadowOffset = CGSize(width: 4, height: 4)
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.lightGray, for: .highlighted)
+        button.translatesAutoresizingMaskIntoConstraints = false
+
+        return button
+
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -87,6 +103,7 @@ class ProfileHeaderView: UIView {
         addSubview(dogImageView)
         addSubview(setStatusButton)
         addSubview(textField)
+        addSubview(friendButton)
 
         NSLayoutConstraint.activate([
 
@@ -110,7 +127,11 @@ class ProfileHeaderView: UIView {
             textField.bottomAnchor.constraint(equalTo: setStatusButton.topAnchor, constant: -10),
             textField.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 150),
             textField.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            textField.heightAnchor.constraint(equalToConstant: 40)
+            textField.heightAnchor.constraint(equalToConstant: 40),
+
+            friendButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            friendButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            friendButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
 
         ])
     }
