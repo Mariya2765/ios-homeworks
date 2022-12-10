@@ -29,14 +29,14 @@ class LogInView: UIView {
 
     let logInButton: UIButton = {
         let button = UIButton()
+        //?? цвет как из сета??
         button.backgroundColor = UIColor.systemBlue
         button.setTitle("Log In", for: .normal)
         button.layer.cornerRadius = 10
         button.setTitleColor(.white, for: .normal)
-
    // 4 состояни кнопки
        // button.isSelected =
-        //button.addTarget()
+
         button.translatesAutoresizingMaskIntoConstraints = false
 
         return button
@@ -55,7 +55,6 @@ class LogInView: UIView {
         tfLogin.autocapitalizationType = .none
         tfLogin.text = "Email or phone"
         tfLogin.textAlignment = .left
-        tfLogin.tintColor = UIColor(named: "My set")
         let spaceView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         tfLogin.leftViewMode = .always
         tfLogin.leftView = spaceView
@@ -76,7 +75,7 @@ class LogInView: UIView {
         tfPassword.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         tfPassword.font = .systemFont(ofSize: 16)
         tfPassword.textColor = .black
-        tfPassword.tintColor = UIColor(named: "My set")
+        //tfPassword.tintColor = .acc - непонятно как
         tfPassword.autocapitalizationType = .none
         tfPassword.isSecureTextEntry = true
         tfPassword.text = "Password"
@@ -84,25 +83,25 @@ class LogInView: UIView {
         let spaceView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         tfPassword.leftViewMode = .always
         tfPassword.leftView = spaceView
-
+        
         tfPassword.translatesAutoresizingMaskIntoConstraints = false
 
         return tfPassword
 
     }()
 
-
     var scrollView: UIScrollView = {
     var logScrollView = UIScrollView()
         logScrollView.backgroundColor = .darkGray
-        logScrollView.keyboardDismissMode = .interactive
-        logScrollView.backgroundColor = .white
 
-        logScrollView.translatesAutoresizingMaskIntoConstraints = false
+        logScrollView.addSubview(loginTextField)
 
         return logScrollView
 
     }()
+
+
+
 
 
     override init(frame: CGRect) {
@@ -111,18 +110,17 @@ class LogInView: UIView {
 
         addElements()
         addConstraints()
-
     }
 
 
+
     func addElements() {
-
-        scrollView.addSubview(loginTextField)
-        scrollView.addSubview(passwordTextField)
-        scrollView.addSubview(logInButton)
-        scrollView.addSubview(logoImage)
-
+        addSubview(logInButton)
+        addSubview(logoImage)
+        addSubview(loginTextField)
+        addSubview(passwordTextField)
         addSubview(scrollView)
+
     }
     
     required init?(coder: NSCoder) {
@@ -135,11 +133,6 @@ class LogInView: UIView {
             logoImage.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor),
             logoImage.heightAnchor.constraint(equalToConstant: 100),
             logoImage.widthAnchor.constraint(equalToConstant: 100),
-
-            scrollView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            scrollView.widthAnchor.constraint(equalTo: safeAreaLayoutGuide.widthAnchor),
-            scrollView.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor),
-            scrollView.centerYAnchor.constraint(equalTo: safeAreaLayoutGuide.centerYAnchor),
 
             loginTextField.topAnchor.constraint(equalTo: logoImage.bottomAnchor, constant: 120),
             loginTextField.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
@@ -160,12 +153,10 @@ class LogInView: UIView {
             ])
     }
 
-    
-
         func configure(image: UIImage) {
 
             logoImage.image = image
         }
-    
-   
+
 }
+
