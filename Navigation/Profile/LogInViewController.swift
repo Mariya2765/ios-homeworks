@@ -8,8 +8,6 @@ import Foundation
 import UIKit
 
 class LogInViewController: UIViewController {
-
-
     private let logoView = LogInView()
 
     override func viewDidLoad() {
@@ -22,7 +20,6 @@ class LogInViewController: UIViewController {
 
         addConstraints()
     }
-
 
     func addConstraints() {
         NSLayoutConstraint.activate([

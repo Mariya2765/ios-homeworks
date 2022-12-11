@@ -57,8 +57,6 @@ class LogInView: UIView {
         let spaceView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         tfLogin.leftViewMode = .always
         tfLogin.leftView = spaceView
-
-
         tfLogin.translatesAutoresizingMaskIntoConstraints = false
 
         return tfLogin
@@ -82,11 +80,9 @@ class LogInView: UIView {
         let spaceView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         tfPassword.leftViewMode = .always
         tfPassword.leftView = spaceView
-
         tfPassword.translatesAutoresizingMaskIntoConstraints = false
 
         return tfPassword
-
     }()
 
 
@@ -99,19 +95,15 @@ class LogInView: UIView {
         logScrollView.translatesAutoresizingMaskIntoConstraints = false
 
         return logScrollView
-
     }()
 
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-
-
         addElements()
         addConstraints()
 
     }
-
 
     func addElements() {
 
@@ -153,18 +145,10 @@ class LogInView: UIView {
             logInButton.heightAnchor.constraint(equalToConstant: 50),
             logInButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
             logInButton.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor)
-
-
             ])
     }
-
-
-    
-
         func configure(image: UIImage) {
 
             logoImage.image = image
         }
-    
-   
 }
