@@ -16,9 +16,6 @@ class LogInView: UIView {
     var logoImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "logo")
-//        image.layer.borderWidth = 0.5
-//        image.layer.borderColor = UIColor.lightGray.cgColor
-//        image.layer.cornerRadius = 10
         image.layer.masksToBounds = true
         image.contentMode = .scaleAspectFill
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -29,14 +26,18 @@ class LogInView: UIView {
 
     let logInButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = UIColor.systemBlue
+        let image = UIImage(named: "blue_pixel")
+        button.setBackgroundImage(image, for: .normal)
+        switch button.state {
+        case [.selected, .highlighted, .disabled]:
+            button.alpha = 0.8
+        default:
+            button.alpha = 1
+        }
         button.setTitle("Log In", for: .normal)
         button.layer.cornerRadius = 10
         button.setTitleColor(.white, for: .normal)
-
-   // 4 состояни кнопки
-       // button.isSelected =
-        //button.addTarget()
+        button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
 
         return button
@@ -159,6 +160,7 @@ class LogInView: UIView {
 
             ])
     }
+
 
     
 
