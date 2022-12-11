@@ -22,7 +22,7 @@ class ProfileHeaderView: UIView {
         return label
     }()
     
-    let setStatusButton: UIButton = {
+   private lazy var setStatusButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor.systemBlue
         button.setTitle("Set status", for: .normal)
@@ -33,12 +33,13 @@ class ProfileHeaderView: UIView {
         button.setTitleColor(.white, for: .normal)
         button.setTitleColor(.lightGray, for: .highlighted)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         
         return button
         
     }()
     
-    let textField: UITextField = {
+    private lazy var textField: UITextField = {
         let tf = UITextField()
         tf.backgroundColor = .white
         tf.layer.borderColor = UIColor.black.cgColor
@@ -48,7 +49,8 @@ class ProfileHeaderView: UIView {
         tf.textColor = .black
         tf.textAlignment = .center
         tf.translatesAutoresizingMaskIntoConstraints = false
-        
+        tf.addTarget(self, action: #selector(statusTextChanged) , for: .editingChanged )
+
         return tf
         
     }()
@@ -97,10 +99,7 @@ class ProfileHeaderView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        setStatusButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
-        textField.addTarget(self, action: #selector(statusTextChanged) , for: .editingChanged )
-        
+
         addElements()
         addConstraints()
         

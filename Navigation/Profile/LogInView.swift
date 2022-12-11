@@ -10,9 +10,6 @@ import UIKit
 
 class LogInView: UIView {
 
-
-
-
     var logoImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "logo")
