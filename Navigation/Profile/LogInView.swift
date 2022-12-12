@@ -25,18 +25,16 @@ class LogInView: UIView {
         let button = UIButton()
         let image = UIImage(named: "blue_pixel")
         button.setBackgroundImage(image, for: .normal)
-        switch button.state {
-        case [.selected, .highlighted, .disabled]:
-            button.alpha = 0.8
-        default:
-            button.alpha = 1
-        }
+        // установка прозрачности в зависимости он положения
+        button.setBackgroundImage(image?.imageWithAlpha(alpha: 0.8), for: .highlighted)
+        button.setBackgroundImage(image?.imageWithAlpha(alpha: 0.8), for: .selected)
+        button.setBackgroundImage(image?.imageWithAlpha(alpha: 0.8), for: .disabled)
+        button.setBackgroundImage(image?.imageWithAlpha(alpha: 1), for: .normal)
         button.setTitle("Log In", for: .normal)
         button.layer.cornerRadius = 10
         button.setTitleColor(.white, for: .normal)
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
-
 
         return button
 
@@ -58,7 +56,6 @@ class LogInView: UIView {
         let spaceView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         tfLogin.leftViewMode = .always
         tfLogin.leftView = spaceView
-
         tfLogin.translatesAutoresizingMaskIntoConstraints = false
 
         return tfLogin
@@ -85,50 +82,50 @@ class LogInView: UIView {
         tfPassword.translatesAutoresizingMaskIntoConstraints = false
 
         return tfPassword
+
     }()
 
-
-    var scrollView: UIScrollView = {
+// создание scrollView и contentView (оба обязательны для scrollView)
+    let scrollView: UIScrollView = {
         var logScrollView = UIScrollView()
-
         logScrollView.keyboardDismissMode = .interactive
         logScrollView.backgroundColor = .white
-        
         logScrollView.translatesAutoresizingMaskIntoConstraints = false
 
         return logScrollView
+
     }()
 
     let contentView: UIView = {
         var content = UIView()
-
         content.translatesAutoresizingMaskIntoConstraints = false
+
         return content
+
     }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+
         addElements()
         addConstraints()
 
     }
-
+// добавление элементов на View, scrollView, contentView
     func addElements() {
         addSubview(scrollView)
         scrollView.addSubview(contentView)
-
         contentView.addSubview(loginTextField)
         contentView.addSubview(passwordTextField)
         contentView.addSubview(logInButton)
         contentView.addSubview(logoImage)
 
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+// установка ограничений (констрейнтов)
     func addConstraints() {
         NSLayoutConstraint.activate([
 
@@ -137,30 +134,17 @@ class LogInView: UIView {
             scrollView.topAnchor.constraint(equalTo: self.topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
 
-
             contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-
 
             logoImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 120),
             logoImage.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             logoImage.heightAnchor.constraint(equalToConstant: 100),
             logoImage.widthAnchor.constraint(equalToConstant: 100),
 
-//            scrollView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-//            scrollView.widthAnchor.constraint(equalTo: safeAreaLayoutGuide.widthAnchor),
-//            scrollView.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor),
-//            scrollView.centerYAnchor.constraint(equalTo: safeAreaLayoutGuide.centerYAnchor),
-
-//            scrollView.heightAnchor.constraint(equalTo: self.heightAnchor),
-//            scrollView.widthAnchor.constraint(equalTo: self.widthAnchor),
-//            scrollView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-//            scrollView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-
-
-            loginTextField.topAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 340),
+            loginTextField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 340),
             loginTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             loginTextField.heightAnchor.constraint(equalToConstant: 50),
             loginTextField.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
@@ -173,11 +157,23 @@ class LogInView: UIView {
             logInButton.topAnchor.constraint(equalTo: logoImage.bottomAnchor, constant: 236),
             logInButton.heightAnchor.constraint(equalToConstant: 50),
             logInButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            logInButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
-            ])
+            logInButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            logInButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12) // обязательная привязка низа contentView
+        ])
     }
-        func configure(image: UIImage) {
+    func configure(image: UIImage) {
 
-            logoImage.image = image
-        }
+        logoImage.image = image
+    }
+
+}
+// функция для изменения картинки прозрачности
+extension UIImage {
+    func imageWithAlpha(alpha: CGFloat) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(size, false, scale)
+        draw(at: .zero, blendMode: .normal, alpha: alpha)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage!
+    }
 }
