@@ -37,6 +37,7 @@ class LogInView: UIView {
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
 
+
         return button
 
     }()
@@ -51,12 +52,13 @@ class LogInView: UIView {
         tfLogin.font = .systemFont(ofSize: 16)
         tfLogin.textColor = .black
         tfLogin.autocapitalizationType = .none
-        tfLogin.text = "Email or phone"
+        tfLogin.placeholder = "Email or phone"
         tfLogin.textAlignment = .left
         tfLogin.tintColor = UIColor(named: "My set")
         let spaceView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         tfLogin.leftViewMode = .always
         tfLogin.leftView = spaceView
+
         tfLogin.translatesAutoresizingMaskIntoConstraints = false
 
         return tfLogin
@@ -75,7 +77,7 @@ class LogInView: UIView {
         tfPassword.tintColor = UIColor(named: "My set")
         tfPassword.autocapitalizationType = .none
         tfPassword.isSecureTextEntry = true
-        tfPassword.text = "Password"
+        tfPassword.placeholder = "Password"
         tfPassword.textAlignment = .justified
         let spaceView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         tfPassword.leftViewMode = .always
@@ -87,32 +89,40 @@ class LogInView: UIView {
 
 
     var scrollView: UIScrollView = {
-    var logScrollView = UIScrollView()
-        logScrollView.backgroundColor = .darkGray
+        var logScrollView = UIScrollView()
+
         logScrollView.keyboardDismissMode = .interactive
         logScrollView.backgroundColor = .white
-
+        
         logScrollView.translatesAutoresizingMaskIntoConstraints = false
 
         return logScrollView
     }()
 
+    let contentView: UIView = {
+        var content = UIView()
+
+        content.translatesAutoresizingMaskIntoConstraints = false
+        return content
+    }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         addElements()
         addConstraints()
 
     }
 
     func addElements() {
-
-        scrollView.addSubview(loginTextField)
-        scrollView.addSubview(passwordTextField)
-        scrollView.addSubview(logInButton)
-        scrollView.addSubview(logoImage)
-
         addSubview(scrollView)
+        scrollView.addSubview(contentView)
+
+        contentView.addSubview(loginTextField)
+        contentView.addSubview(passwordTextField)
+        contentView.addSubview(logInButton)
+        contentView.addSubview(logoImage)
+
     }
     
     required init?(coder: NSCoder) {
@@ -121,30 +131,49 @@ class LogInView: UIView {
     
     func addConstraints() {
         NSLayoutConstraint.activate([
-            logoImage.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 120),
-            logoImage.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor),
+
+            scrollView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            scrollView.widthAnchor.constraint(equalTo: self.widthAnchor),
+            scrollView.topAnchor.constraint(equalTo: self.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+
+
+            contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+
+
+            logoImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 120),
+            logoImage.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             logoImage.heightAnchor.constraint(equalToConstant: 100),
             logoImage.widthAnchor.constraint(equalToConstant: 100),
 
-            scrollView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            scrollView.widthAnchor.constraint(equalTo: safeAreaLayoutGuide.widthAnchor),
-            scrollView.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor),
-            scrollView.centerYAnchor.constraint(equalTo: safeAreaLayoutGuide.centerYAnchor),
+//            scrollView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+//            scrollView.widthAnchor.constraint(equalTo: safeAreaLayoutGuide.widthAnchor),
+//            scrollView.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor),
+//            scrollView.centerYAnchor.constraint(equalTo: safeAreaLayoutGuide.centerYAnchor),
 
-            loginTextField.topAnchor.constraint(equalTo: logoImage.bottomAnchor, constant: 120),
-            loginTextField.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
+//            scrollView.heightAnchor.constraint(equalTo: self.heightAnchor),
+//            scrollView.widthAnchor.constraint(equalTo: self.widthAnchor),
+//            scrollView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+//            scrollView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+
+
+            loginTextField.topAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 340),
+            loginTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             loginTextField.heightAnchor.constraint(equalToConstant: 50),
-            loginTextField.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor),
+            loginTextField.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
 
-            passwordTextField.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor),
+            passwordTextField.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             passwordTextField.topAnchor.constraint(equalTo: logoImage.bottomAnchor, constant: 170),
-            passwordTextField.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            passwordTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             passwordTextField.heightAnchor.constraint(equalToConstant: 50),
 
             logInButton.topAnchor.constraint(equalTo: logoImage.bottomAnchor, constant: 236),
             logInButton.heightAnchor.constraint(equalToConstant: 50),
-            logInButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            logInButton.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor)
+            logInButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            logInButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
             ])
     }
         func configure(image: UIImage) {
