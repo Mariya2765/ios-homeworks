@@ -53,7 +53,8 @@ class LogInViewController: UIViewController {
     }
 
     @objc func keyboardWillShow(_ notification: NSNotification) {
-        guard let ks = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect) else {return}
+//        guard let ks = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect) else {return}
+        guard let ks = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {return}
         self.logoView.scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: ks.height - self.view.safeAreaInsets.bottom + 20, right: 0)
 
     }
