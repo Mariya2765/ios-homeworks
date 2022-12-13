@@ -18,13 +18,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func createProfileViewController() -> UINavigationController {
-        let profileNavigationController = UINavigationController(rootViewController: ProfileViewController())
+        let profileNavigationController = UINavigationController(rootViewController: LogInViewController())
         profileNavigationController.tabBarItem = UITabBarItem(title: "Профиль" , image: UIImage (systemName: "person.fill" ), tag: 0)
 
         let appearanceProfile = UINavigationBarAppearance()
         appearanceProfile.configureWithDefaultBackground()
         profileNavigationController.navigationBar.standardAppearance = appearanceProfile
         profileNavigationController.navigationBar.scrollEdgeAppearance = appearanceProfile
+        profileNavigationController.navigationBar.isHidden = true
         
         return profileNavigationController
     }
