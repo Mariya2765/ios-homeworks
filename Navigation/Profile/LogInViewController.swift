@@ -31,25 +31,30 @@ class LogInViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
         super.viewWillAppear(animated)
         subscribeKeyboardEvents()
     }
-    
+
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        super.viewWillDisappear(animated)
+    }
+
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         NotificationCenter.default.removeObserver(self)
     }
-    
-    @objc private func logInButtonAction() {
-        
-        let profileVc = ProfileViewController()
-        navigationController?.pushViewController(profileVc, animated: true)
-        
-    }
-    
+
     func subscribeKeyboardEvents() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+
+    @objc private func logInButtonAction() {
+        let profileVc = ProfileViewController()
+        navigationController?.pushViewController(profileVc, animated: true)
+
     }
     
     @objc func keyboardWillShow(_ notification: NSNotification) {

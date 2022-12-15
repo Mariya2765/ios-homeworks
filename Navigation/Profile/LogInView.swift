@@ -42,17 +42,20 @@ class LogInView: UIView {
 
     let loginTextField: UITextField = {
         let tfLogin = UITextField()
+
         tfLogin.backgroundColor = .systemGray6
         tfLogin.layer.borderColor = UIColor.lightGray.cgColor
         tfLogin.layer.borderWidth = 0.5
         tfLogin.layer.cornerRadius = 10
         tfLogin.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+
         tfLogin.font = .systemFont(ofSize: 16)
         tfLogin.textColor = .black
         tfLogin.autocapitalizationType = .none
         tfLogin.placeholder = "Email or phone"
         tfLogin.textAlignment = .left
         tfLogin.tintColor = UIColor(named: "My set")
+        
         let spaceView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         tfLogin.leftViewMode = .always
         tfLogin.leftView = spaceView
@@ -85,7 +88,7 @@ class LogInView: UIView {
 
     }()
 
-// создание scrollView и contentView (оба обязательны для scrollView)
+    // создание scrollView и contentView (оба обязательны для scrollView)
     let scrollView: UIScrollView = {
         var logScrollView = UIScrollView()
         logScrollView.keyboardDismissMode = .interactive
@@ -111,7 +114,7 @@ class LogInView: UIView {
         addConstraints()
 
     }
-// добавление элементов на View, scrollView, contentView
+    // добавление элементов на View, scrollView, contentView
     func addElements() {
         addSubview(scrollView)
         scrollView.addSubview(contentView)
@@ -125,7 +128,7 @@ class LogInView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-// установка ограничений (констрейнтов)
+    // установка ограничений (констрейнтов)
     func addConstraints() {
         NSLayoutConstraint.activate([
 

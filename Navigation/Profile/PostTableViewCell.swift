@@ -7,9 +7,10 @@
 
 import Foundation
 import UIKit
+
 class PostTableViewCell: UITableViewCell {
 
-    let postAutor: UILabel = {
+    private let postAutorLabel: UILabel = {
         let autor = UILabel()
         autor.text = "Hello"
         autor.font = .systemFont(ofSize: 20, weight: .bold)
@@ -19,7 +20,7 @@ class PostTableViewCell: UITableViewCell {
         return autor
     }()
 
-   let postImage: UIImageView = {
+    private let postImageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFit
         image.backgroundColor = .black
@@ -27,7 +28,7 @@ class PostTableViewCell: UITableViewCell {
         return image
     }()
 
-    let postText: UILabel = {
+    private let postTextLabel: UILabel = {
         let postText = UILabel()
         postText.font = .systemFont(ofSize: 14)
         postText.textColor = .systemGray
@@ -36,18 +37,16 @@ class PostTableViewCell: UITableViewCell {
         return postText
     }()
 
-    let postLike: UILabel = {
+    private let postLikeLabel: UILabel = {
         let likeLabel = UILabel()
-        likeLabel.text = "Likes"
         likeLabel.font = .systemFont(ofSize: 16)
         likeLabel.textColor = .black
         likeLabel.translatesAutoresizingMaskIntoConstraints = false
         return likeLabel
     }()
 
-    let postView: UILabel = {
+    private let postViewLabel: UILabel = {
         let viewsLabel = UILabel()
-        viewsLabel.text = "View"
         viewsLabel.font = .systemFont(ofSize: 16)
         viewsLabel.textColor = .black
         viewsLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -57,46 +56,54 @@ class PostTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupMyCell()
-
+        addConstraints()
+        selectionStyle = .none
     }
-
+    // Добавляем все элементы ячейки на contentView
     func setupMyCell() {
 
-        contentView.addSubview(postAutor)
-        contentView.addSubview(postImage)
-        contentView.addSubview(postText)
-        contentView.addSubview(postLike)
-        contentView.addSubview(postView)
+        contentView.addSubview(postAutorLabel)
+        contentView.addSubview(postImageView)
+        contentView.addSubview(postTextLabel)
+        contentView.addSubview(postLikeLabel)
+        contentView.addSubview(postViewLabel)
 
     }
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            postImage.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            postImage.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            postImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 48),
-            postImage.widthAnchor.constraint(equalTo: safeAreaLayoutGuide.widthAnchor),
-            postImage.heightAnchor.constraint(equalTo: postImage.widthAnchor),
 
-            postAutor.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-            postAutor.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            postAutorLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
+            postAutorLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            postImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
 
-            postText.topAnchor.constraint(equalTo: postImage.bottomAnchor, constant: 16),
-            postText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            postImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            postImageView.topAnchor.constraint(equalTo: postAutorLabel.bottomAnchor, constant: 12),
+            postImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor),
+            postImageView.heightAnchor.constraint(equalTo: postImageView.widthAnchor),
 
-            postLike.topAnchor.constraint(equalTo: postText.bottomAnchor, constant: 16),
-            postLike.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            postTextLabel.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: 16),
+            postTextLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            postTextLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
 
+            postLikeLabel.topAnchor.constraint(equalTo: postTextLabel.bottomAnchor, constant: 16),
+            postLikeLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            postLikeLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
 
-            postView.topAnchor.constraint(equalTo: postText.bottomAnchor, constant: 16),
-            postLike.heightAnchor.constraint(equalTo: contentView.heightAnchor, constant: -16)
-            ])
+            postViewLabel.topAnchor.constraint(equalTo: postTextLabel.bottomAnchor, constant: 16),
+            postViewLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            postViewLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
+        ])
     }
 
 
     func configure(post: Post) {
 
-
+        postImageView.image = UIImage(named: post.image)
+        postAutorLabel.text = post.autor
+        postTextLabel.text = post.description
+        postLikeLabel.text = "Likes: \(post.likes)"
+        postViewLabel.text = "Views: \(post.likes)"
 
     }
     required init?(coder: NSCoder) {
