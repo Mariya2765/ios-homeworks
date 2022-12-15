@@ -78,13 +78,6 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         return headerView
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let post = publicationsArray[indexPath.row]
-        let newViewController = UIViewController()
-        newViewController.configure(post: post)
-        navigationController?.pushViewController(newViewController, animated: true)
-    }
-
 }
 
 
