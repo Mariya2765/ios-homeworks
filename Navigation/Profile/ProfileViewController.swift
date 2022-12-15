@@ -12,12 +12,8 @@ let reuseIdentifire = "cellID"
 
 class ProfileViewController: UIViewController {
 
-    let treePost = Post(autor: "Эколог", description: "Привет! С днем защиты деревьев от дровосеков!", image: "tree", likes: 85, views: 170)
-    let familyPost = Post(autor: "Family search", description: "Родство означает связанность людей родственными связями. Сегодня поговорим о кровном родстве. Кровное прямое: в соседних поколениях (отец, мать - дети), через поколение (дед, бабушка - внук, внучка), через два поколения (прадед, прабабка - правнук, правнучка), через несколько поколений (предок - потомок). В русской генеалогии прямым считается родство исключительно по мужской линии «от отца к сыну нисходящее». Кровное непрямое: родные, сводные, двоюродные, троюродные. В соседник поколениях - дядя, тетя, племянники, племянницы, двоюродный дядя/тетя, двоюродный племянник/племянница", image: "family", likes: 5, views: 25)
-    let winterPost = Post(autor: "Child", description: "С первым снегом, друзья!", image: "winter", likes: 30, views: 80)
-    let gardenPost = Post(autor: "Peter", description: "Осень в Летнем саду", image: "", likes: 28, views: 75)
 
-    private var publicationsArray = [Post]()
+    let publicationsArray = Post.getPost()
 
 
     private lazy var tableView: UITableView = {
@@ -38,17 +34,13 @@ class ProfileViewController: UIViewController {
            super.viewDidLoad()
 
         view.addSubview(tableView)
+        self.tableView.register(PostTableViewCell.self, forCellReuseIdentifier: reuseIdentifire)
 
-        addOfPosts()
+
         addConstraintsOfTableView()
 
     }
-    func addOfPosts() {
-        publicationsArray.append(treePost)
-        publicationsArray.append(familyPost)
-        publicationsArray.append(winterPost)
-        publicationsArray.append(gardenPost)
-    }
+
     func addConstraintsOfTableView() {
             NSLayoutConstraint.activate([
                 tableView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -74,9 +66,24 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifire) as! PostTableViewCell
-        cell.textLabel?.text = publicationsArray[indexPath.item].description
-        cell.imageView?.image = UIImage(named: publicationsArray[indexPath.item].image)
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifire, for: indexPath) //as! PostTableViewCell
+        let post = publicationsArray[indexPath.row]
+
+
+//        var content = cell.defaultContentConfiguration()
+//        content.text = post.autor
+//        content.secondaryText = post.description
+//        content.image = UIImage(named: post.image)
+//
+//
+//        cell.contentConfiguration = content
+
+        
+        cell.textLabel?.text = post.autor
+        cell.imageView?.image = UIImage(named: post.image)
+        
+//        cell.textLabel?.text = publicationsArray[indexPath.item].description
+//        cell.imageView?.image = UIImage(named: publicationsArray[indexPath.item].image)
 
         return cell
             }
