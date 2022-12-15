@@ -23,9 +23,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let appearanceProfile = UINavigationBarAppearance()
         appearanceProfile.configureWithDefaultBackground()
+        appearanceProfile.backgroundColor = .white
         profileNavigationController.navigationBar.standardAppearance = appearanceProfile
         profileNavigationController.navigationBar.scrollEdgeAppearance = appearanceProfile
-        profileNavigationController.navigationBar.isHidden = true
         
         return profileNavigationController
     }

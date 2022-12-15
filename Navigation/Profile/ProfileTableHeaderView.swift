@@ -100,6 +100,7 @@ class ProfileHeaderView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
+        backgroundColor = .gray
         addElements()
         addConstraints()
         
@@ -133,6 +134,7 @@ class ProfileHeaderView: UIView {
             setStatusButton.topAnchor.constraint(equalTo: dogImageView.bottomAnchor, constant: 40),
             setStatusButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16),
             setStatusButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            setStatusButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -50),
             
             statusLabel.bottomAnchor.constraint(equalTo: profileLabel.topAnchor, constant: 81),
             statusLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 150),

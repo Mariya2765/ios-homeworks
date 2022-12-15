@@ -13,12 +13,12 @@ let reuseIdentifire = "cellID"
 class ProfileViewController: UIViewController {
 
 
-    let publicationsArray = Post.getPost()
+    let publicationsArray = PostsProvider.getPost()
 
 
     private lazy var tableView: UITableView = {
 
-        let tableView = UITableView()
+        let tableView = UITableView(frame: .zero, style: .grouped)
         self.tableView = UITableView(frame: view.bounds, style: .grouped)
         tableView.register(PostTableViewCell.self, forCellReuseIdentifier: reuseIdentifire )
         tableView.dataSource = self
@@ -51,64 +51,38 @@ class ProfileViewController: UIViewController {
         ])
     }
 
-
+    let headerView = ProfileHeaderView()
 
 }
 // UIDataSource
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
-
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         publicationsArray.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifire, for: indexPath) //as! PostTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifire, for: indexPath) as! PostTableViewCell
         let post = publicationsArray[indexPath.row]
+        cell.configure(post: post)
 
-
-//        var content = cell.defaultContentConfiguration()
-//        content.text = post.autor
-//        content.secondaryText = post.description
-//        content.image = UIImage(named: post.image)
-//
-//
-//        cell.contentConfiguration = content
-
-        
-        cell.textLabel?.text = post.autor
-        cell.imageView?.image = UIImage(named: post.image)
-        
-//        cell.textLabel?.text = publicationsArray[indexPath.item].description
-//        cell.imageView?.image = UIImage(named: publicationsArray[indexPath.item].image)
 
         return cell
-            }
-
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section == 0 {
-            let headerView = ProfileHeaderView()
-            headerView.translatesAutoresizingMaskIntoConstraints = false
-            func addConstraintsOfViwe() {
-            NSLayoutConstraint.activate([
-                headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-                headerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-                headerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-                headerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-            ])
-            }
-
-            return headerView
-        } else {
-            return nil
     }
 
+//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        500
+//    }
 
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return headerView
+    }
 
-
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let post = publicationsArray[indexPath.row]
+        let newViewController = UIViewController()
+        newViewController.configure(post: post)
+        navigationController?.pushViewController(newViewController, animated: true)
     }
 
 }

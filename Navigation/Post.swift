@@ -16,7 +16,7 @@ struct Post {
 
 }
 
-extension Post {
+public class PostsProvider {
     static func getPost() -> [Post] {
         [
             Post(autor: "Эколог", description: "Привет! С днем защиты деревьев от дровосеков!", image: "tree", likes: 85, views: 170),
