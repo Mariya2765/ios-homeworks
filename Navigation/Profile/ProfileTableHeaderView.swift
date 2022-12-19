@@ -100,7 +100,6 @@ class ProfileHeaderView: UIView {
         addSubview(dogImageView)
         addSubview(setStatusButton)
         addSubview(textField)
-        //        addSubview(friendButton)
     }
     
     func addConstraints() {

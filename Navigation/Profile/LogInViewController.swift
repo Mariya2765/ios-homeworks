@@ -54,7 +54,6 @@ class LogInViewController: UIViewController {
     @objc private func logInButtonAction() {
         let profileVc = ProfileViewController()
         navigationController?.pushViewController(profileVc, animated: true)
-
     }
     
     @objc func keyboardWillShow(_ notification: NSNotification) {

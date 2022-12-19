@@ -9,7 +9,7 @@ import UIKit
 
 
 class FeedViewController: UIViewController {
-    var post = Post.init(autor: "123", description: "14", image: "tree", likes: 3, views: 7)
+    var post = Post(autor: "123", description: "14", image: "tree", likes: 3, views: 7)
     private let stackView = UIStackView()
 
     private let postButton: UIButton = {
@@ -36,8 +36,6 @@ class FeedViewController: UIViewController {
 
         stackView.addArrangedSubview(postButton)
         stackView.addArrangedSubview(newPostButton)
-//        postButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
-//        newPostButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
 
         stackView.axis = .vertical
         stackView.distribution = .fillProportionally
@@ -49,11 +47,5 @@ class FeedViewController: UIViewController {
             stackView.heightAnchor.constraint(equalToConstant: 80)
         ])
     }
-
-//    @objc private func buttonAction() {
-//
-//        let postVc = PostViewController(post: self.post)
-//        navigationController?.pushViewController(postVc, animated: true)
-//    }
 }
 

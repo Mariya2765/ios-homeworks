@@ -59,6 +59,7 @@ class PostTableViewCell: UITableViewCell {
         addConstraints()
         selectionStyle = .none
     }
+
     // Добавляем все элементы ячейки на contentView
     func setupMyCell() {
 
@@ -67,7 +68,7 @@ class PostTableViewCell: UITableViewCell {
         contentView.addSubview(postTextLabel)
         contentView.addSubview(postLikeLabel)
         contentView.addSubview(postViewLabel)
-
+        
     }
 
     func addConstraints() {
@@ -75,7 +76,6 @@ class PostTableViewCell: UITableViewCell {
 
             postAutorLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             postAutorLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            postImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
 
             postImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             postImageView.topAnchor.constraint(equalTo: postAutorLabel.bottomAnchor, constant: 12),

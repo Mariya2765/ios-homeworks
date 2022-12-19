@@ -8,9 +8,13 @@
 import Foundation
 import UIKit
 
-let reuseIdentifire = "cellID"
+//let reuseIdentifire = "cellID"
 
 class ProfileViewController: UIViewController {
+
+    private enum Constants {
+        static let reuseIdentifire = "cellID"
+    }
 
     let publicationsArray = PostProvider.getPost()
 
@@ -18,7 +22,7 @@ class ProfileViewController: UIViewController {
 
         let tableView = UITableView(frame: .zero, style: .grouped)
         self.tableView = UITableView(frame: view.bounds, style: .grouped)
-        tableView.register(PostTableViewCell.self, forCellReuseIdentifier: reuseIdentifire )
+        tableView.register(PostTableViewCell.self, forCellReuseIdentifier: Constants.reuseIdentifire )
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .none
@@ -32,7 +36,7 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
 
         view.addSubview(tableView)
-        self.tableView.register(PostTableViewCell.self, forCellReuseIdentifier: reuseIdentifire)
+        self.tableView.register(PostTableViewCell.self, forCellReuseIdentifier: Constants.reuseIdentifire)
 
 
         addConstraintsOfTableView()
@@ -61,7 +65,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifire, for: indexPath) as! PostTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.reuseIdentifire, for: indexPath) as! PostTableViewCell
         let post = publicationsArray[indexPath.row]
         cell.configure(post: post)
 
