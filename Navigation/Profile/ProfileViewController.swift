@@ -17,6 +17,8 @@ class ProfileViewController: UIViewController {
     }
 
     let publicationsArray = PostProvider.getPost()
+    private let headerViwe = ProfileHeaderView()
+
 
     private lazy var tableView: UITableView = {
 
@@ -37,10 +39,7 @@ class ProfileViewController: UIViewController {
 
         view.addSubview(tableView)
         self.tableView.register(PostTableViewCell.self, forCellReuseIdentifier: Constants.reuseIdentifire)
-
-
         addConstraintsOfTableView()
-
     }
 
     func addConstraintsOfTableView() {
@@ -52,13 +51,10 @@ class ProfileViewController: UIViewController {
 
         ])
     }
-
-    let headerViwe = ProfileHeaderView()
-
 }
+
 // UIDataSource
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
-
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         publicationsArray.count
@@ -68,17 +64,10 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.reuseIdentifire, for: indexPath) as! PostTableViewCell
         let post = publicationsArray[indexPath.row]
         cell.configure(post: post)
-
         return cell
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return headerViwe
     }
-
 }
-
-
-
-
-
