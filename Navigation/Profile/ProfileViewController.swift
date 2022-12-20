@@ -8,29 +8,66 @@
 import Foundation
 import UIKit
 
+//let reuseIdentifire = "cellID"
+
 class ProfileViewController: UIViewController {
 
-    private let headerView = ProfileHeaderView()
-    
+    private enum Constants {
+        static let reuseIdentifire = "cellID"
+    }
+
+    let publicationsArray = PostProvider.getPost()
+    private let headerViwe = ProfileHeaderView()
+
+
+    private lazy var tableView: UITableView = {
+
+        let tableView = UITableView(frame: .zero, style: .grouped)
+        self.tableView = UITableView(frame: view.bounds, style: .grouped)
+        tableView.register(PostTableViewCell.self, forCellReuseIdentifier: Constants.reuseIdentifire )
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.separatorStyle = .none
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return tableView
+    }()
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .lightGray
-        view.addSubview(headerView)
-        title = "Profile"
 
-        headerView.translatesAutoresizingMaskIntoConstraints = false
-
-        addConstraints()
+        view.addSubview(tableView)
+        self.tableView.register(PostTableViewCell.self, forCellReuseIdentifier: Constants.reuseIdentifire)
+        addConstraintsOfTableView()
     }
 
-    func addConstraints() {
+    func addConstraintsOfTableView() {
         NSLayoutConstraint.activate([
-            headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            headerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            headerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            headerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+
         ])
     }
-
 }
 
+// UIDataSource
+extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        publicationsArray.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.reuseIdentifire, for: indexPath) as! PostTableViewCell
+        let post = publicationsArray[indexPath.row]
+        cell.configure(post: post)
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return headerViwe
+    }
+}

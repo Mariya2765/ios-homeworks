@@ -8,11 +8,7 @@
 import UIKit
 
 class PostViewController: UIViewController {
-    let post: Post
-    init(post: Post) {
-        self.post = post
-        super.init(nibName: nil, bundle: nil)
-    }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -20,7 +16,6 @@ class PostViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemPink
-        self.title = self.post.title
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(barButtonAction))
     }
@@ -31,4 +26,5 @@ class PostViewController: UIViewController {
     }
 
 
+    
 }
