@@ -14,15 +14,18 @@ class PhotosTableViewCell: UITableViewCell, UICollectionViewDelegateFlowLayout, 
     }
 
     private let titleLabel = UILabel()
+    private let buttonGo = UIButton()
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()
     )
 
     private var imagesArray: [UIImage] = []
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-
         selectionStyle = .none
+
         titleLabel.text = "Photos"
+        titleLabel.textColor = .black
+        titleLabel.font = .systemFont(ofSize: 24, weight: .bold)
         contentView.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -30,6 +33,10 @@ class PhotosTableViewCell: UITableViewCell, UICollectionViewDelegateFlowLayout, 
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -50)
         ])
+
+        //buttonGo.imageView = UIImage(systemName: "arrow.right")
+
+
 
         contentView.addSubview(collectionView)
         collectionView.delegate = self
@@ -52,6 +59,9 @@ class PhotosTableViewCell: UITableViewCell, UICollectionViewDelegateFlowLayout, 
         // задаем направление скроллинга - горизонтальное
         if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             flowLayout.scrollDirection = .horizontal
+            flowLayout.sectionInset = .init(top: 0, left: 12, bottom: 0, right: 12)
+            flowLayout.minimumLineSpacing = 8
+            //flowLayout.itemSize = .init(width: , height: <#T##CGFloat#>)
 
         }
     }
@@ -72,17 +82,14 @@ class PhotosTableViewCell: UITableViewCell, UICollectionViewDelegateFlowLayout, 
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.reuseIdentifier, for: indexPath) as! PhotosCollectionViewCell
-        
-        cell.configure(image: imagesArray[indexPath.row])
-
-        return cell
+        if indexPath.row <= 3 {
+            cell.configure(image: imagesArray[indexPath.row])
+            return cell
+        } else {
+            return cell
+        }
     }
 
 
-
-
-//    func configure(image: UIImage) {
-//        photoImageView.image = image
-//    }
 
 }

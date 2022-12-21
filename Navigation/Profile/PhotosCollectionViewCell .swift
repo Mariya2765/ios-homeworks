@@ -18,6 +18,7 @@ class PhotosCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(photoImageView)
         photoImageView.translatesAutoresizingMaskIntoConstraints = false
         photoImageView.contentMode = .scaleAspectFit
+        photoImageView.layer.cornerRadius = 6
         photoImageView.clipsToBounds = true
         NSLayoutConstraint.activate([
             photoImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -32,6 +33,7 @@ class PhotosCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
 
     func configure(image: UIImage) {
         photoImageView.image = image

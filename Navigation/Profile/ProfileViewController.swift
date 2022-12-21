@@ -17,7 +17,7 @@ class ProfileViewController: UIViewController {
     }
 
     let publicationsArray = PostProvider.getPost()
-    private let headerViwe = ProfileHeaderView()
+    private let headerView = ProfileHeaderView()
 
 
     private lazy var tableView: UITableView = {
@@ -76,7 +76,23 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
                 UIImage(named: "berries")!,
                 UIImage(named: "flowers")!,
                 UIImage(named: "home")!,
-                UIImage(named: "stones")!
+                UIImage(named: "stones")!,
+                UIImage(named: "sunset")!,
+                UIImage(named: "balloons")!,
+                UIImage(named: "river")!,
+                UIImage(named: "temple")!,
+                UIImage(named: "airplane")!,
+                UIImage(named: "theater")!,
+                UIImage(named: "sunset homes")!,
+                UIImage(named: "mosque")!,
+                UIImage(named: "mushrooms")!,
+                UIImage(named: "town")!,
+                UIImage(named: "cone")!,
+                UIImage(named: "boletus")!,
+                UIImage(named: "maple leaf")!,
+                UIImage(named: "chocolate bomb")!,
+                UIImage(named: "chocolate coconut")!,
+                UIImage(named: "watch")!
             ])
 
             return cell
@@ -89,9 +105,19 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
 
     }
 
+//    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+//        if section == 1 {
+//            return
+//        }
+//    }
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return headerViwe
-    }
+        if section == 0{
+        return headerView
+        } else {
+            return .none
+        }
+}
 }
 
 // UIImage(named: "berries"),
