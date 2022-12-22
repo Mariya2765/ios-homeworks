@@ -22,7 +22,6 @@ class PhotosCollectionViewCell: UICollectionViewCell {
         photoImageView.clipsToBounds = true
         NSLayoutConstraint.activate([
             photoImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            //photoImageView.widthAnchor.constraint(equalToConstant: //<#T##CGFloat#>) 
             photoImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             photoImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             photoImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)

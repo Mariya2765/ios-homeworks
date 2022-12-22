@@ -8,17 +8,24 @@
 import Foundation
 import UIKit
 
+protocol TableCellWithCollectionDelegate: AnyObject {
+    func openImageGallery(image: UIImage)
+}
+
 class PhotosTableViewCell: UITableViewCell, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     private enum Constants {
         static let reuseIdentifier = "collection_cell"
     }
 
     private let titleLabel = UILabel()
-    private let buttonGo = UIButton()
+    private let viewArrow = UIImageView()
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()
     )
 
     private var imagesArray: [UIImage] = []
+
+    var delegate: TableCellWithCollectionDelegate?
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
@@ -34,9 +41,18 @@ class PhotosTableViewCell: UITableViewCell, UICollectionViewDelegateFlowLayout, 
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -50)
         ])
 
-        //buttonGo.imageView = UIImage(systemName: "arrow.right")
+        viewArrow.image = UIImage(systemName: "arrow.right")
+        viewArrow.tintColor = .black
+        viewArrow.contentMode = .scaleAspectFit
 
+        contentView.addSubview(viewArrow)
+        viewArrow.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            viewArrow.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
+            viewArrow.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            viewArrow.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12)
 
+        ])
 
         contentView.addSubview(collectionView)
         collectionView.delegate = self
@@ -75,6 +91,24 @@ class PhotosTableViewCell: UITableViewCell, UICollectionViewDelegateFlowLayout, 
 
         collectionView.reloadData()
     }
+
+    //UICollectionViewDelegateFlowLayout - обработка нажатия на картинку
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        delegate?.openImageGallery(image: imagesArray[indexPath.row])
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let numberOfCells = 4
+        let offsetBetweenCells = 8
+        let offsetFromCellToScreen = 12
+        let screenWidth = UIScreen.main.bounds.width
+        let side = (Int(screenWidth) - offsetBetweenCells * (numberOfCells - 1) - offsetFromCellToScreen * 2) / numberOfCells
+        let sizeOfCell = CGSize(width: side, height: side)
+        return sizeOfCell
+    }
+
+
  // UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return imagesArray.count

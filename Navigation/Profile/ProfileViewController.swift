@@ -54,7 +54,7 @@ class ProfileViewController: UIViewController {
 }
 
 // UIDataSource
-extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
+extension ProfileViewController: UITableViewDataSource, UITableViewDelegate, TableCellWithCollectionDelegate {
 
     func numberOfSections(in tableView: UITableView) -> Int {
         2
@@ -94,6 +94,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
                 UIImage(named: "chocolate coconut")!,
                 UIImage(named: "watch")!
             ])
+            cell.delegate = self
 
             return cell
         } else {
@@ -105,12 +106,6 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
 
     }
 
-//    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-//        if section == 1 {
-//            return
-//        }
-//    }
-
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0{
         return headerView
@@ -118,26 +113,12 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             return .none
         }
 }
+
+    //при нажатии на картинку открывается newViewController  
+    func openImageGallery(image: UIImage) {
+        let newViewController = UIViewController(nibName: nil, bundle: nil)
+        present(newViewController, animated: true)
+    }
 }
 
-// UIImage(named: "berries"),
-//        UIImage(named: "flowers"),
-//        UIImage(named: "home"),
-//        UIImage(named: "stones"),
-//        UIImage(named: "sunset"),
-//        UIImage(named: "balloons"),
-//        UIImage(named: "river"),
-//        UIImage(named: "temple"),
-//        UIImage(named: "airplane"),
-//        UIImage(named: "theater"),
-//        UIImage(named: "sunset homes"),
-//        UIImage(named: "mosque"),
-//        UIImage(named: "mushrooms"),
-//        UIImage(named: "town"),
-//        UIImage(named: "cone"),
-//        UIImage(named: "boletus"),
-//        UIImage(named: "maple leaf"),
-//        UIImage(named: "chocolate bomb"),
-//        UIImage(named: "chocolate coconut"),
-//        UIImage(named: "watch")]
 
