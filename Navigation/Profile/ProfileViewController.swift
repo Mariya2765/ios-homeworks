@@ -13,12 +13,30 @@ class ProfileViewController: UIViewController {
     private enum Constants {
         static let reuseIdentifire = "cellID"
         static let collectionID = "collectID"
-        
     }
 
     let publicationsArray = PostProvider.getPost()
     private let headerView = ProfileHeaderView()
-
+    var arrayOfImages: [UIImage] = [UIImage(named: "berries")!,
+                                    UIImage(named: "flowers")!,
+                                    UIImage(named: "home")!,
+                                    UIImage(named: "stones")!,
+                                    UIImage(named: "sunset")!,
+                                    UIImage(named: "balloons")!,
+                                    UIImage(named: "river")!,
+                                    UIImage(named: "temple")!,
+                                    UIImage(named: "airplane")!,
+                                    UIImage(named: "theater")!,
+                                    UIImage(named: "sunset homes")!,
+                                    UIImage(named: "mosque")!,
+                                    UIImage(named: "mushrooms")!,
+                                    UIImage(named: "town")!,
+                                    UIImage(named: "cone")!,
+                                    UIImage(named: "boletus")!,
+                                    UIImage(named: "maple leaf")!,
+                                    UIImage(named: "chocolate bomb")!,
+                                    UIImage(named: "chocolate coconut")!,
+                                    UIImage(named: "watch")!]
 
     private lazy var tableView: UITableView = {
 
@@ -72,28 +90,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate, Tab
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.collectionID, for: indexPath) as! PhotosTableViewCell
 
-            cell.configure(imagesArray: [
-                UIImage(named: "berries")!,
-                UIImage(named: "flowers")!,
-                UIImage(named: "home")!,
-                UIImage(named: "stones")!,
-                UIImage(named: "sunset")!,
-                UIImage(named: "balloons")!,
-                UIImage(named: "river")!,
-                UIImage(named: "temple")!,
-                UIImage(named: "airplane")!,
-                UIImage(named: "theater")!,
-                UIImage(named: "sunset homes")!,
-                UIImage(named: "mosque")!,
-                UIImage(named: "mushrooms")!,
-                UIImage(named: "town")!,
-                UIImage(named: "cone")!,
-                UIImage(named: "boletus")!,
-                UIImage(named: "maple leaf")!,
-                UIImage(named: "chocolate bomb")!,
-                UIImage(named: "chocolate coconut")!,
-                UIImage(named: "watch")!
-            ])
+            cell.configure(imagesArray: arrayOfImages)
             cell.delegate = self
 
             return cell
@@ -116,7 +113,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate, Tab
 
     //при нажатии на картинку открывается newViewController  
     func openImageGallery(image: UIImage) {
-        let newViewController = UIViewController(nibName: nil, bundle: nil)
+        let newViewController = PhotosViewController(array: arrayOfImages)
         present(newViewController, animated: true)
     }
 }

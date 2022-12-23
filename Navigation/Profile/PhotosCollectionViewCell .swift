@@ -17,7 +17,7 @@ class PhotosCollectionViewCell: UICollectionViewCell {
 
         contentView.addSubview(photoImageView)
         photoImageView.translatesAutoresizingMaskIntoConstraints = false
-        photoImageView.contentMode = .scaleAspectFit
+        photoImageView.contentMode = .scaleToFill
         photoImageView.layer.cornerRadius = 6
         photoImageView.clipsToBounds = true
         NSLayoutConstraint.activate([
