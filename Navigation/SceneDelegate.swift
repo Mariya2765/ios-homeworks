@@ -26,6 +26,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         profileNavigationController.navigationBar.standardAppearance = appearanceProfile
         profileNavigationController.navigationBar.scrollEdgeAppearance = appearanceProfile
         
+    
         return profileNavigationController
     }
 

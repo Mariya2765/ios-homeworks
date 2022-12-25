@@ -58,6 +58,7 @@ class ProfileViewController: UIViewController {
         self.tableView.register(PostTableViewCell.self, forCellReuseIdentifier: Constants.reuseIdentifire)
         addConstraintsOfTableView()
         self.tableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: Constants.collectionID)
+        navigationItem.title = "Photo gallery"
     }
 
     func addConstraintsOfTableView() {
@@ -114,8 +115,31 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate, Tab
     //при нажатии на картинку открывается newViewController  
     func openImageGallery(image: UIImage) {
         let newViewController = PhotosViewController(array: arrayOfImages)
-        present(newViewController, animated: true)
+        //present(newViewController, animated: true)
+        navigationController?.pushViewController(newViewController, animated: true)
     }
+
+    func createGalleryNavigationBar() {
+        let galleryNavigationController = UINavigationController(rootViewController: PhotosViewController(array: arrayOfImages))
+
+        let appearanceGallery = UINavigationBarAppearance()
+        appearanceGallery.configureWithDefaultBackground()
+        galleryNavigationController.navigationBar.standardAppearance = appearanceGallery
+        galleryNavigationController.navigationBar.scrollEdgeAppearance = appearanceGallery
+//        galleryNavigationController.navigationBar.titleTextAttributes = [NSAttributedString.Key: ]
+        galleryNavigationController.navigationBar.topItem?.title = "Photo Gallery"
+
+
+//        galleryNavigationController.navigationBar.titleTextAttributes = [.font: UIFont(name: "Photo Gallery", size: 20)!]
+//    galleryNavigationController.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black, .font: UIFont(name: "Photo Gallery", size: 20)!]
+        galleryNavigationController.navigationBar.tintColor = .black
+
+        navigationController?.present(galleryNavigationController, animated: true)
+    }
+
+//
+//    }
+//}
+
+
 }
-
-
