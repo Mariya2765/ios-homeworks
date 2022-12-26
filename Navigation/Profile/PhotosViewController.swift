@@ -38,6 +38,7 @@ class PhotosViewController: UIViewController, UICollectionViewDelegateFlowLayout
         collectionView.showsVerticalScrollIndicator = false
 
         navigationItem.title = "Photo Gallery"
+        navigationItem.titleView?.isHidden = true
 
         collectionView.register(PhotosCollectionViewCell.self, forCellWithReuseIdentifier: Constants.reuseIdentifier)
     }
