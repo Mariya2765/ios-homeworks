@@ -13,77 +13,92 @@ protocol TableCellWithCollectionDelegate: AnyObject {
 }
 
 class PhotosTableViewCell: UITableViewCell, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+    
     private enum Constants {
         static let reuseIdentifier = "collection_cell"
     }
 
-    private let titleLabel = UILabel()
-    private let viewArrow = UIImageView()
-    private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()
-    )
     private var heightOfCell = sizeOfCollectionView
     private var imagesArray: [UIImage] = []
 
     var delegate: TableCellWithCollectionDelegate?
 
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        selectionStyle = .none
-
+    private let titleLabel: UILabel = {
+        let titleLabel = UILabel()
         titleLabel.text = "Photos"
         titleLabel.textColor = .black
         titleLabel.font = .systemFont(ofSize: 24, weight: .bold)
-        contentView.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -50)
-        ])
+        return titleLabel
 
+    }()
+
+    private let viewArrow: UIImageView = {
+        let viewArrow = UIImageView()
         viewArrow.image = UIImage(systemName: "arrow.right")
         viewArrow.tintColor = .black
         viewArrow.contentMode = .scaleAspectFill
-
-        contentView.addSubview(viewArrow)
         viewArrow.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            viewArrow.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
-            viewArrow.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
-            viewArrow.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12)
+        return viewArrow
 
-        ])
+    }()
 
-        contentView.addSubview(collectionView)
-        collectionView.delegate = self
-        collectionView.dataSource = self
+    private let collectionView: UICollectionView = {
+        let collectionView = UICollectionView()
+        collectionView.frame = .zero
+        collectionView.collectionViewLayout = UICollectionViewFlowLayout()
+
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = .white
         collectionView.clipsToBounds = true
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo:  titleLabel.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            collectionView.heightAnchor.constraint(equalToConstant: sizeOfCollectionView().height + 12)
-        ])
-
-        // регистрируем PhotosCollectionViewCell
-        collectionView.register(PhotosCollectionViewCell.self, forCellWithReuseIdentifier: Constants.reuseIdentifier)
-
         // задаем направление скроллинга - горизонтальное
         if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             flowLayout.scrollDirection = .horizontal
             flowLayout.sectionInset = .init(top: 0, left: 12, bottom: 0, right: 12)
             flowLayout.minimumLineSpacing = 8
         }
+        return collectionView
+
+    }()
+
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        selectionStyle = .none
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        setupTableViewCell()
+        addConstraints()
+
+        // регистрируем PhotosCollectionViewCell
+        collectionView.register(PhotosCollectionViewCell.self, forCellWithReuseIdentifier: Constants.reuseIdentifier)
     }
 
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    func setupTableViewCell() {
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(viewArrow)
+        contentView.addSubview(collectionView)
     }
+
+    func addConstraints() {
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -50),
+
+            viewArrow.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
+            viewArrow.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            viewArrow.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+
+            collectionView.topAnchor.constraint(equalTo:  titleLabel.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            collectionView.heightAnchor.constraint(equalToConstant: sizeOfCollectionView().height + 12)
+
+            ])
+    }
+
 
     func sizeOfCollectionView() -> CGSize {
         let numberOfCells: CGFloat = 4
@@ -141,5 +156,8 @@ class PhotosTableViewCell: UITableViewCell, UICollectionViewDelegateFlowLayout, 
             return cell
         }
     }
-    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
 }

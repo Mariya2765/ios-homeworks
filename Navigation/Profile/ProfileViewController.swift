@@ -114,7 +114,6 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate, Tab
     //при нажатии на картинку открывается newViewController  
     func openImageGallery(image: UIImage) {
         let newViewController = PhotosViewController(array: arrayOfImages)
-        //present(newViewController, animated: true)
         navigationController?.pushViewController(newViewController, animated: true)
     }
 }
