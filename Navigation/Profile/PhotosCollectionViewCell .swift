@@ -17,8 +17,8 @@ class PhotosCollectionViewCell: UICollectionViewCell {
 
         contentView.addSubview(photoImageView)
         photoImageView.translatesAutoresizingMaskIntoConstraints = false
-        photoImageView.contentMode = .scaleToFill
-        photoImageView.layer.cornerRadius = 6
+        photoImageView.contentMode = .scaleAspectFill
+        //photoImageView.layer.cornerRadius = 6
         photoImageView.clipsToBounds = true
         NSLayoutConstraint.activate([
             photoImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -26,7 +26,6 @@ class PhotosCollectionViewCell: UICollectionViewCell {
             photoImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             photoImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
-
     }
 
     required init?(coder: NSCoder) {
@@ -34,8 +33,14 @@ class PhotosCollectionViewCell: UICollectionViewCell {
     }
 
 
-    func configure(image: UIImage) {
+    func configure(image: UIImage, needForCorners: Bool) {
         photoImageView.image = image
+
+        if needForCorners == true {
+            photoImageView.layer.cornerRadius = 6
+        } else {
+            photoImageView.layer.cornerRadius = 0
+        }
     }
 
 }

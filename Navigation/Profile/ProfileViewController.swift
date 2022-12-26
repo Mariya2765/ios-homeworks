@@ -14,7 +14,7 @@ class ProfileViewController: UIViewController {
         static let reuseIdentifire = "cellID"
         static let collectionID = "collectID"
     }
-
+    
     let publicationsArray = PostProvider.getPost()
     private let headerView = ProfileHeaderView()
     var arrayOfImages: [UIImage] = [UIImage(named: "berries")!,
@@ -37,9 +37,9 @@ class ProfileViewController: UIViewController {
                                     UIImage(named: "chocolate bomb")!,
                                     UIImage(named: "chocolate coconut")!,
                                     UIImage(named: "watch")!]
-
+    
     private lazy var tableView: UITableView = {
-
+        
         let tableView = UITableView(frame: .zero, style: .grouped)
         self.tableView = UITableView(frame: view.bounds, style: .grouped)
         tableView.register(PostTableViewCell.self, forCellReuseIdentifier: Constants.reuseIdentifire )
@@ -58,7 +58,8 @@ class ProfileViewController: UIViewController {
         self.tableView.register(PostTableViewCell.self, forCellReuseIdentifier: Constants.reuseIdentifire)
         addConstraintsOfTableView()
         self.tableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: Constants.collectionID)
-        navigationItem.title = "Photo gallery"
+        tableView.sectionFooterHeight = 0.0
+       
     }
 
     func addConstraintsOfTableView() {
@@ -67,7 +68,6 @@ class ProfileViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-
         ])
     }
 }
@@ -96,21 +96,20 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate, Tab
 
             return cell
         } else {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.reuseIdentifire, for: indexPath) as! PostTableViewCell
-                    let post = publicationsArray[indexPath.row]
-                    cell.configure(post: post)
-                    return cell
+            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.reuseIdentifire, for: indexPath) as! PostTableViewCell
+            let post = publicationsArray[indexPath.row]
+            cell.configure(post: post)
+            return cell
         }
-
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0{
-        return headerView
+            return headerView
         } else {
             return .none
         }
-}
+    }
 
     //при нажатии на картинку открывается newViewController  
     func openImageGallery(image: UIImage) {
@@ -118,28 +117,4 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate, Tab
         //present(newViewController, animated: true)
         navigationController?.pushViewController(newViewController, animated: true)
     }
-
-    func createGalleryNavigationBar() {
-        let galleryNavigationController = UINavigationController(rootViewController: PhotosViewController(array: arrayOfImages))
-
-        let appearanceGallery = UINavigationBarAppearance()
-        appearanceGallery.configureWithDefaultBackground()
-        galleryNavigationController.navigationBar.standardAppearance = appearanceGallery
-        galleryNavigationController.navigationBar.scrollEdgeAppearance = appearanceGallery
-//        galleryNavigationController.navigationBar.titleTextAttributes = [NSAttributedString.Key: ]
-        galleryNavigationController.navigationBar.topItem?.title = "Photo Gallery"
-
-
-//        galleryNavigationController.navigationBar.titleTextAttributes = [.font: UIFont(name: "Photo Gallery", size: 20)!]
-//    galleryNavigationController.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black, .font: UIFont(name: "Photo Gallery", size: 20)!]
-        galleryNavigationController.navigationBar.tintColor = .black
-
-        navigationController?.present(galleryNavigationController, animated: true)
-    }
-
-//
-//    }
-//}
-
-
 }

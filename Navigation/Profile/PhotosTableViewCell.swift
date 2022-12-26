@@ -61,12 +61,12 @@ class PhotosTableViewCell: UITableViewCell, UICollectionViewDelegateFlowLayout, 
         collectionView.backgroundColor = .white
         collectionView.clipsToBounds = true
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo:  titleLabel.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-//            collectionView.heightAnchor.constraint(equalToConstant: 100)
             collectionView.heightAnchor.constraint(equalToConstant: sizeOfCollectionView().height + 12)
         ])
 
@@ -92,6 +92,7 @@ class PhotosTableViewCell: UITableViewCell, UICollectionViewDelegateFlowLayout, 
         let screenWidth = UIScreen.main.bounds.width
         let side = (screenWidth - offsetBetweenCells * (numberOfCells - 1) - offsetFromCellToScreen * 2) / numberOfCells
         let sizeOfCell = CGSize(width: side, height: side)
+        
         return sizeOfCell
     }
 
@@ -109,7 +110,6 @@ class PhotosTableViewCell: UITableViewCell, UICollectionViewDelegateFlowLayout, 
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-
         return sizeOfCollectionView()
     }
 
@@ -126,19 +126,20 @@ class PhotosTableViewCell: UITableViewCell, UICollectionViewDelegateFlowLayout, 
 
  // UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+
         return imagesArray.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.reuseIdentifier, for: indexPath) as! PhotosCollectionViewCell
         if indexPath.row <= 3 {
-            cell.configure(image: imagesArray[indexPath.row])
+            cell.configure(image: imagesArray[indexPath.row], needForCorners: true)
+
             return cell
         } else {
             return cell
         }
     }
-
-
-
+    
 }
