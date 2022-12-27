@@ -14,6 +14,9 @@ class PhotosViewController: UIViewController, UICollectionViewDelegateFlowLayout
         static let reuseIdentifier = "collection_cell"
     }
 
+    private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()
+    )
+
     private let arrayOfImages: [UIImage]
 
     init(array: [UIImage]) {
@@ -25,8 +28,7 @@ class PhotosViewController: UIViewController, UICollectionViewDelegateFlowLayout
         fatalError("init(coder:) has not been implemented")
     }
 
-    private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()
-    )
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +45,7 @@ class PhotosViewController: UIViewController, UICollectionViewDelegateFlowLayout
         collectionView.register(PhotosCollectionViewCell.self, forCellWithReuseIdentifier: Constants.reuseIdentifier)
     }
 
-    func addConstraintsOfCollectionView() {
+  private  func addConstraintsOfCollectionView() {
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -62,7 +64,7 @@ class PhotosViewController: UIViewController, UICollectionViewDelegateFlowLayout
         .init(
             top: 8,
             left: 8,
-            bottom: 0,
+            bottom: 8,
             right: 8
         )
     }
@@ -78,29 +80,16 @@ class PhotosViewController: UIViewController, UICollectionViewDelegateFlowLayout
     // UICollectionViewDataSource
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-
         arrayOfImages.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.reuseIdentifier, for: indexPath) as! PhotosCollectionViewCell
         cell.configure(image: arrayOfImages[indexPath.row], needForCorners: false)
-
         return cell
     }
 
-    func createGalleryNavigationBar() {
-        let galleryNavigationController = UINavigationController(rootViewController: PhotosViewController(array: arrayOfImages))
-        let appearanceGallery = UINavigationBarAppearance()
-        appearanceGallery.configureWithDefaultBackground()
-        galleryNavigationController.navigationBar.standardAppearance = appearanceGallery
-        galleryNavigationController.navigationBar.scrollEdgeAppearance = appearanceGallery
-        galleryNavigationController.navigationBar.tintColor = .black
-
-        navigationController?.present(galleryNavigationController, animated: true)
-    }
-
-    func sizeOfCollectionView() -> CGSize {
+   private func sizeOfCollectionView() -> CGSize {
         let numberOfCells: CGFloat = 3
         let offsetBetweenCells: CGFloat = 8
         let offsetFromCellToScreen: CGFloat = 8
@@ -109,5 +98,4 @@ class PhotosViewController: UIViewController, UICollectionViewDelegateFlowLayout
         let sizeOfCell = CGSize(width: side, height: side)
         return sizeOfCell
     }
-
 }

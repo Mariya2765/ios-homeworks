@@ -31,7 +31,6 @@ class PhotosCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-
     func configure(image: UIImage, needForCorners: Bool) {
         photoImageView.image = image
         

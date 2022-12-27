@@ -17,37 +17,16 @@ class ProfileViewController: UIViewController {
     
     let publicationsArray = PostProvider.getPost()
     private let headerView = ProfileHeaderView()
-    var arrayOfImages: [UIImage] = [UIImage(named: "berries")!,
-                                    UIImage(named: "flowers")!,
-                                    UIImage(named: "home")!,
-                                    UIImage(named: "stones")!,
-                                    UIImage(named: "sunset")!,
-                                    UIImage(named: "balloons")!,
-                                    UIImage(named: "river")!,
-                                    UIImage(named: "temple")!,
-                                    UIImage(named: "airplane")!,
-                                    UIImage(named: "theater")!,
-                                    UIImage(named: "sunset homes")!,
-                                    UIImage(named: "mosque")!,
-                                    UIImage(named: "mushrooms")!,
-                                    UIImage(named: "town")!,
-                                    UIImage(named: "cone")!,
-                                    UIImage(named: "boletus")!,
-                                    UIImage(named: "maple leaf")!,
-                                    UIImage(named: "chocolate bomb")!,
-                                    UIImage(named: "chocolate coconut")!,
-                                    UIImage(named: "watch")!]
+    var arrayOfImages: [UIImage] = ImageProvider.getImages()
     
     private lazy var tableView: UITableView = {
         
         let tableView = UITableView(frame: .zero, style: .grouped)
-        self.tableView = UITableView(frame: view.bounds, style: .grouped)
         tableView.register(PostTableViewCell.self, forCellReuseIdentifier: Constants.reuseIdentifire )
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .none
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        
         return tableView
     }()
 
@@ -62,7 +41,7 @@ class ProfileViewController: UIViewController {
        
     }
 
-    func addConstraintsOfTableView() {
+   private func addConstraintsOfTableView() {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -73,7 +52,8 @@ class ProfileViewController: UIViewController {
 }
 
 // UIDataSource
-extension ProfileViewController: UITableViewDataSource, UITableViewDelegate, TableCellWithCollectionDelegate {
+extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
+
 
     func numberOfSections(in tableView: UITableView) -> Int {
         2
@@ -90,10 +70,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate, Tab
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.collectionID, for: indexPath) as! PhotosTableViewCell
-
-            cell.configure(imagesArray: arrayOfImages)
-            cell.delegate = self
-
+            cell.configure(imagesArray: Array(arrayOfImages.prefix(4)))
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.reuseIdentifire, for: indexPath) as! PostTableViewCell
@@ -111,9 +88,9 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate, Tab
         }
     }
 
-    //при нажатии на картинку открывается newViewController  
-    func openImageGallery(image: UIImage) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let newViewController = PhotosViewController(array: arrayOfImages)
         navigationController?.pushViewController(newViewController, animated: true)
     }
+
 }

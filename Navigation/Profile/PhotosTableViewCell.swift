@@ -8,9 +8,6 @@
 import Foundation
 import UIKit
 
-protocol TableCellWithCollectionDelegate: AnyObject {
-    func openImageGallery(image: UIImage)
-}
 
 class PhotosTableViewCell: UITableViewCell, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
@@ -18,10 +15,7 @@ class PhotosTableViewCell: UITableViewCell, UICollectionViewDelegateFlowLayout, 
         static let reuseIdentifier = "collection_cell"
     }
 
-    private var heightOfCell = sizeOfCollectionView
     private var imagesArray: [UIImage] = []
-
-    var delegate: TableCellWithCollectionDelegate?
 
     private let titleLabel: UILabel = {
         let titleLabel = UILabel()
@@ -33,7 +27,7 @@ class PhotosTableViewCell: UITableViewCell, UICollectionViewDelegateFlowLayout, 
 
     }()
 
-    private let viewArrow: UIImageView = {
+    private let imageViewArrow: UIImageView = {
         let viewArrow = UIImageView()
         viewArrow.image = UIImage(systemName: "arrow.right")
         viewArrow.tintColor = .black
@@ -44,10 +38,7 @@ class PhotosTableViewCell: UITableViewCell, UICollectionViewDelegateFlowLayout, 
     }()
 
     private let collectionView: UICollectionView = {
-        let collectionView = UICollectionView()
-        collectionView.frame = .zero
-        collectionView.collectionViewLayout = UICollectionViewFlowLayout()
-
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = .white
         collectionView.clipsToBounds = true
@@ -76,7 +67,7 @@ class PhotosTableViewCell: UITableViewCell, UICollectionViewDelegateFlowLayout, 
 
     func setupTableViewCell() {
         contentView.addSubview(titleLabel)
-        contentView.addSubview(viewArrow)
+        contentView.addSubview(imageViewArrow)
         contentView.addSubview(collectionView)
     }
 
@@ -86,16 +77,15 @@ class PhotosTableViewCell: UITableViewCell, UICollectionViewDelegateFlowLayout, 
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -50),
 
-            viewArrow.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
-            viewArrow.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
-            viewArrow.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            imageViewArrow.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
+            imageViewArrow.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            imageViewArrow.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
 
             collectionView.topAnchor.constraint(equalTo:  titleLabel.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             collectionView.heightAnchor.constraint(equalToConstant: sizeOfCollectionView().height + 12)
-
             ])
     }
 
@@ -117,14 +107,7 @@ class PhotosTableViewCell: UITableViewCell, UICollectionViewDelegateFlowLayout, 
         collectionView.reloadData()
     }
 
-    //UICollectionViewDelegateFlowLayout - обработка нажатия на картинку
-
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.openImageGallery(image: imagesArray[indexPath.row])
-    }
-
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-
         return sizeOfCollectionView()
     }
 
@@ -139,23 +122,19 @@ class PhotosTableViewCell: UITableViewCell, UICollectionViewDelegateFlowLayout, 
         0
     }
 
- // UICollectionViewDataSource
+    // UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-
         return imagesArray.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.reuseIdentifier, for: indexPath) as! PhotosCollectionViewCell
-        if indexPath.row <= 3 {
-            cell.configure(image: imagesArray[indexPath.row], needForCorners: true)
-
-            return cell
-        } else {
-            return cell
-        }
+        var imagesInTableView: [UIImage] = []
+        imagesInTableView.insert(contentsOf: imagesArray[0...3], at: 0)
+        cell.configure(image: imagesInTableView[indexPath.row], needForCorners: true)
+        return cell
     }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

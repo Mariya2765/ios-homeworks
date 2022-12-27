@@ -104,10 +104,9 @@ class PostTableViewCell: UITableViewCell {
         postTextLabel.text = post.description
         postLikeLabel.text = "Likes: \(post.likes)"
         postViewLabel.text = "Views: \(post.likes)"
-
     }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
 }
