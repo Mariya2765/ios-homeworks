@@ -164,6 +164,7 @@ class LogInView: UIView {
             logInButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12) // обязательная привязка низа contentView
         ])
     }
+    
     func configure(image: UIImage) {
 
         logoImage.image = image
