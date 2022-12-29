@@ -27,8 +27,6 @@ class PhotosViewController: UIViewController, UICollectionViewDelegateFlowLayout
         fatalError("init(coder:) has not been implemented")
     }
 
-
-
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(collectionView)
@@ -44,7 +42,7 @@ class PhotosViewController: UIViewController, UICollectionViewDelegateFlowLayout
         collectionView.register(PhotosCollectionViewCell.self, forCellWithReuseIdentifier: Constants.reuseIdentifier)
     }
 
-  private  func addConstraintsOfCollectionView() {
+    private  func addConstraintsOfCollectionView() {
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),

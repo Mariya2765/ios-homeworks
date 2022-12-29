@@ -23,7 +23,6 @@ class PhotosTableViewCell: UITableViewCell, UICollectionViewDelegateFlowLayout, 
         titleLabel.font = .systemFont(ofSize: 24, weight: .bold)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         return titleLabel
-
     }()
 
     private let imageViewArrow: UIImageView = {
@@ -33,7 +32,6 @@ class PhotosTableViewCell: UITableViewCell, UICollectionViewDelegateFlowLayout, 
         viewArrow.contentMode = .scaleAspectFill
         viewArrow.translatesAutoresizingMaskIntoConstraints = false
         return viewArrow
-
     }()
 
     private let collectionView: UICollectionView = {
@@ -88,15 +86,13 @@ class PhotosTableViewCell: UITableViewCell, UICollectionViewDelegateFlowLayout, 
         ])
     }
 
-
-    func sizeOfCollectionView() -> CGSize {
+    private func sizeOfCollectionView() -> CGSize {
         let numberOfCells: CGFloat = 4
         let offsetBetweenCells: CGFloat = 8
         let offsetFromCellToScreen: CGFloat = 12
         let screenWidth = UIScreen.main.bounds.width
         let side = (screenWidth - offsetBetweenCells * (numberOfCells - 1) - offsetFromCellToScreen * 2) / numberOfCells
         let sizeOfCell = CGSize(width: side, height: side)
-        
         return sizeOfCell
     }
 

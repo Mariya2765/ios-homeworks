@@ -15,9 +15,9 @@ class ProfileViewController: UIViewController {
         static let collectionID = "collectID"
     }
     
-    let publicationsArray = PostProvider.getPost()
+    private let publicationsArray = PostProvider.getPost()
     private let headerView = ProfileHeaderView()
-    var arrayOfImages: [UIImage] = ImageProvider.getImages()
+    private var arrayOfImages: [UIImage] = ImageProvider.getImages()
     
     private lazy var tableView: UITableView = {
         
@@ -41,7 +41,7 @@ class ProfileViewController: UIViewController {
        
     }
 
-   private func addConstraintsOfTableView() {
+    private func addConstraintsOfTableView() {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
