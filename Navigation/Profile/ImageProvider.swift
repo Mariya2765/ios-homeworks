@@ -8,7 +8,6 @@
 import Foundation
 import UIKit
 
-
 public class ImageProvider {
     static func getImages() -> [UIImage] {
         [UIImage(named: "berries"),

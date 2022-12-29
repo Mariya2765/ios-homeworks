@@ -14,8 +14,7 @@ class PhotosViewController: UIViewController, UICollectionViewDelegateFlowLayout
         static let reuseIdentifier = "collection_cell"
     }
 
-    private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()
-    )
+    private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
 
     private let arrayOfImages: [UIImage]
 

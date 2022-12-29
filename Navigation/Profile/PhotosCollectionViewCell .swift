@@ -11,7 +11,6 @@ class PhotosCollectionViewCell: UICollectionViewCell {
 
     private let photoImageView = UIImageView()
 
-
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -33,10 +32,6 @@ class PhotosCollectionViewCell: UICollectionViewCell {
 
     func configure(image: UIImage, needForCorners: Bool) {
         photoImageView.image = image
-        
-        if needForCorners {
-            photoImageView.layer.cornerRadius = needForCorners ? 6 : 0
-        }
+        photoImageView.layer.cornerRadius = needForCorners ? 6 : 0
     }
-
 }

@@ -8,7 +8,6 @@
 import Foundation
 import UIKit
 
-
 class PhotosTableViewCell: UITableViewCell, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     private enum Constants {
@@ -86,7 +85,7 @@ class PhotosTableViewCell: UITableViewCell, UICollectionViewDelegateFlowLayout, 
             collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             collectionView.heightAnchor.constraint(equalToConstant: sizeOfCollectionView().height + 12)
-            ])
+        ])
     }
 
 
