@@ -25,10 +25,23 @@ class ProfileHeaderView: UIView {
     private var backgroundViewLeadingConstraint: NSLayoutConstraint!
     private var backgroundViewTrailingConstraint: NSLayoutConstraint!
 
+    private var cancelButtonTopConstraint: NSLayoutConstraint!
+    private var cancelButtonTrailingConstraint: NSLayoutConstraint!
+    private var cancelButtonWidthConstraint: NSLayoutConstraint!
+    private var cancelButtonHeightConstraint: NSLayoutConstraint!
+
 
     private var isBig = false
 
     private var statusText: String = ""
+
+    private let cancelButton: UIButton = {
+        let button = UIButton()
+       // button.imageView = UIImage(named: "clear")
+        button.setImage(UIImage(systemName: "clear" ), for: .normal)
+
+        return button
+    }()
 
 
     private let backgroundView: UIView = {
@@ -130,9 +143,14 @@ class ProfileHeaderView: UIView {
         addSubview(setStatusButton)
         addSubview(textField)
         addSubview(backgroundView)
-        dogImageView.addGestureRecognizer(tapGestureRecognizer)
-        tapGestureRecognizer.addTarget(self, action: #selector(handTapGesture))
-//        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handTapGesture)))
+        backgroundView.addSubview(cancelButton)
+        // эти две строчки не работают почему-то
+//        dogImageView.addGestureRecognizer(tapGestureRecognizer)
+//        tapGestureRecognizer.addTarget(self, action: #selector(handTapGesture))
+
+
+        //зато поменяла те строчки на эту - более-менее заработало
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handTapGesture)))
     }
     
     func addConstraints() {
@@ -143,12 +161,18 @@ class ProfileHeaderView: UIView {
         
         dogViewCenterXconstraint = dogImageView.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor)
         dogViewCenterYconstraint = dogImageView.centerYAnchor.constraint(equalTo: safeAreaLayoutGuide.centerYAnchor)
-        widthToScreenConstraint = dogImageView.widthAnchor.constraint(equalTo: safeAreaLayoutGuide.widthAnchor, constant: -30)
+        widthToScreenConstraint = dogImageView.widthAnchor.constraint(equalTo: safeAreaLayoutGuide.widthAnchor, constant: -5)
 
         backgroundViewLeadingConstraint = backgroundView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor)
         backgroundViewTrailingConstraint = backgroundView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
         backgroundViewTopConstraint = backgroundView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor)
         backgroundViewBottomConstraint = backgroundView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+
+        cancelButtonTopConstraint = cancelButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor)
+        cancelButtonTrailingConstraint = cancelButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
+        cancelButtonWidthConstraint = cancelButton.widthAnchor.constraint(equalToConstant: 20)
+        cancelButtonHeightConstraint = cancelButton.heightAnchor.constraint(equalToConstant: 20)
+
 
         NSLayoutConstraint.activate([
 
@@ -195,7 +219,11 @@ class ProfileHeaderView: UIView {
                 backgroundViewTopConstraint,
                 backgroundViewBottomConstraint,
                 backgroundViewLeadingConstraint,
-                backgroundViewTrailingConstraint
+                backgroundViewTrailingConstraint,
+                cancelButtonTopConstraint,
+                cancelButtonTrailingConstraint,
+                cancelButtonWidthConstraint,
+                cancelButtonHeightConstraint
             ])
             NSLayoutConstraint.activate([
                 dogViewWidthConstraint,
@@ -215,8 +243,11 @@ class ProfileHeaderView: UIView {
                 backgroundViewTopConstraint,
                 backgroundViewBottomConstraint,
                 backgroundViewLeadingConstraint,
-                backgroundViewTrailingConstraint
-
+                backgroundViewTrailingConstraint,
+                cancelButtonTopConstraint,
+                cancelButtonTrailingConstraint,
+                cancelButtonWidthConstraint,
+                cancelButtonHeightConstraint
             ])
         }
 
