@@ -20,13 +20,20 @@ class ProfileHeaderView: UIView {
     private var dogViewCenterYconstraint: NSLayoutConstraint!
     private var widthToScreenConstraint: NSLayoutConstraint!
 
+    private var backgroundViewTopConstraint: NSLayoutConstraint!
+    private var backgroundViewBottomConstraint: NSLayoutConstraint!
+    private var backgroundViewLeadingConstraint: NSLayoutConstraint!
+    private var backgroundViewTrailingConstraint: NSLayoutConstraint!
+
+
+    private var isBig = false
+
     private var statusText: String = ""
 
 
     private let backgroundView: UIView = {
         let deactiveView = UIView()
-        deactiveView.backgroundColor = .systemGray
-        deactiveView.alpha = 0
+        deactiveView.backgroundColor = .systemGray.withAlphaComponent(0)
         deactiveView.translatesAutoresizingMaskIntoConstraints = false
 
         return deactiveView
@@ -122,6 +129,7 @@ class ProfileHeaderView: UIView {
         addSubview(dogImageView)
         addSubview(setStatusButton)
         addSubview(textField)
+        addSubview(backgroundView)
         dogImageView.addGestureRecognizer(tapGestureRecognizer)
         tapGestureRecognizer.addTarget(self, action: #selector(handTapGesture))
 //        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handTapGesture)))
@@ -137,8 +145,14 @@ class ProfileHeaderView: UIView {
         dogViewCenterYconstraint = dogImageView.centerYAnchor.constraint(equalTo: safeAreaLayoutGuide.centerYAnchor)
         widthToScreenConstraint = dogImageView.widthAnchor.constraint(equalTo: safeAreaLayoutGuide.widthAnchor, constant: -30)
 
+        backgroundViewLeadingConstraint = backgroundView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor)
+        backgroundViewTrailingConstraint = backgroundView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
+        backgroundViewTopConstraint = backgroundView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor)
+        backgroundViewBottomConstraint = backgroundView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+
         NSLayoutConstraint.activate([
-            
+
+
             dogViewWidthConstraint,
             dogViewLeadingConstraint,
             dogViewTopConstraint,
@@ -173,23 +187,49 @@ class ProfileHeaderView: UIView {
     }
 
     @objc func handTapGesture(_ gestureRecognizer: UITapGestureRecognizer) {
+        if isBig {
+            NSLayoutConstraint.deactivate([
+                dogViewCenterXconstraint,
+                dogViewCenterYconstraint,
+                widthToScreenConstraint,
+                backgroundViewTopConstraint,
+                backgroundViewBottomConstraint,
+                backgroundViewLeadingConstraint,
+                backgroundViewTrailingConstraint
+            ])
+            NSLayoutConstraint.activate([
+                dogViewWidthConstraint,
+                dogViewLeadingConstraint,
+                dogViewTopConstraint
+            ])
+        } else {
+            NSLayoutConstraint.deactivate([
+                dogViewWidthConstraint,
+                dogViewLeadingConstraint,
+                dogViewTopConstraint
+            ])
+            NSLayoutConstraint.activate([
+                dogViewCenterXconstraint,
+                dogViewCenterYconstraint,
+                widthToScreenConstraint,
+                backgroundViewTopConstraint,
+                backgroundViewBottomConstraint,
+                backgroundViewLeadingConstraint,
+                backgroundViewTrailingConstraint
 
-        
-//        NSLayoutConstraint.deactivate([
-//            dogViewWidthConstraint,
-//            dogViewLeadingConstraint,
-//            dogViewTopConstraint
-//        ])
-//
-//        NSLayoutConstraint.activate([
-//            dogViewCenterXconstraint,
-//            dogViewCenterYconstraint,
-//            widthToScreenConstraint
-//        ])
+            ])
+        }
 
-        UIView.animate(withDuration: 1, delay: 0, animations: {
+        UIView.animate(withDuration: 1) {
+            self.dogImageView.layer.cornerRadius = self.isBig
+            ? 55
+             : 0
+            self.backgroundView.alpha = self.isBig
+            ? 0
+            : 1
             self.layoutIfNeeded()
-        })
+        }
+        isBig.toggle()
     }
     
     @objc private func buttonPressed() {
