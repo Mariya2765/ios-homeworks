@@ -30,6 +30,8 @@ class ProfileViewController: UIViewController {
         return tableView
     }()
 
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -38,7 +40,7 @@ class ProfileViewController: UIViewController {
         addConstraintsOfTableView()
         self.tableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: Constants.collectionID)
         tableView.sectionFooterHeight = 0.0
-       
+
     }
 
     private func addConstraintsOfTableView() {
@@ -49,6 +51,8 @@ class ProfileViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
+
+
 }
 
 // UIDataSource

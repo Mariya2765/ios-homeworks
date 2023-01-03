@@ -9,8 +9,29 @@ import Foundation
 import UIKit
 
 class ProfileHeaderView: UIView {
-    
+
+    private let tapGestureRecognizer = UITapGestureRecognizer()
+
+    private var dogViewTopConstraint: NSLayoutConstraint!
+    private var dogViewLeadingConstraint: NSLayoutConstraint!
+    private var dogViewWidthConstraint: NSLayoutConstraint!
+
+    private var dogViewCenterXconstraint: NSLayoutConstraint!
+    private var dogViewCenterYconstraint: NSLayoutConstraint!
+    private var widthToScreenConstraint: NSLayoutConstraint!
+
     private var statusText: String = ""
+
+
+    private let backgroundView: UIView = {
+        let deactiveView = UIView()
+        deactiveView.backgroundColor = .systemGray
+        deactiveView.alpha = 0
+        deactiveView.translatesAutoresizingMaskIntoConstraints = false
+
+        return deactiveView
+    }()
+
     let statusLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14)
@@ -76,18 +97,19 @@ class ProfileHeaderView: UIView {
         image.layer.masksToBounds = true
         image.contentMode = .scaleAspectFill
         image.translatesAutoresizingMaskIntoConstraints = false
-        
+
         return image
         
     }()
-    
+
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         backgroundColor = .lightGray
         addElements()
         addConstraints()
-        
+
     }
     
     required init?(coder: NSCoder) {
@@ -100,15 +122,27 @@ class ProfileHeaderView: UIView {
         addSubview(dogImageView)
         addSubview(setStatusButton)
         addSubview(textField)
+        dogImageView.addGestureRecognizer(tapGestureRecognizer)
+        tapGestureRecognizer.addTarget(self, action: #selector(handTapGesture))
+//        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handTapGesture)))
     }
     
     func addConstraints() {
+
+        dogViewLeadingConstraint = dogImageView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16)
+        dogViewTopConstraint = dogImageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16)
+        dogViewWidthConstraint = dogImageView.widthAnchor.constraint(equalToConstant: 110)
+        
+        dogViewCenterXconstraint = dogImageView.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor)
+        dogViewCenterYconstraint = dogImageView.centerYAnchor.constraint(equalTo: safeAreaLayoutGuide.centerYAnchor)
+        widthToScreenConstraint = dogImageView.widthAnchor.constraint(equalTo: safeAreaLayoutGuide.widthAnchor, constant: -30)
+
         NSLayoutConstraint.activate([
             
-            dogImageView.widthAnchor.constraint(equalToConstant: 110),
-            dogImageView.heightAnchor.constraint(equalToConstant: 110),
-            dogImageView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            dogImageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
+            dogViewWidthConstraint,
+            dogViewLeadingConstraint,
+            dogViewTopConstraint,
+            dogImageView.heightAnchor.constraint(equalTo: dogImageView.widthAnchor),
             
             profileLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 27),
             profileLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 150),
@@ -136,6 +170,26 @@ class ProfileHeaderView: UIView {
     func configure(title: String, image: UIImage) {
         profileLabel.text = title
         dogImageView.image = image
+    }
+
+    @objc func handTapGesture(_ gestureRecognizer: UITapGestureRecognizer) {
+
+        
+//        NSLayoutConstraint.deactivate([
+//            dogViewWidthConstraint,
+//            dogViewLeadingConstraint,
+//            dogViewTopConstraint
+//        ])
+//
+//        NSLayoutConstraint.activate([
+//            dogViewCenterXconstraint,
+//            dogViewCenterYconstraint,
+//            widthToScreenConstraint
+//        ])
+
+        UIView.animate(withDuration: 1, delay: 0, animations: {
+            self.layoutIfNeeded()
+        })
     }
     
     @objc private func buttonPressed() {
