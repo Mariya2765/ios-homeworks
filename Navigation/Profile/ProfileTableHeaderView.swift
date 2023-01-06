@@ -39,13 +39,15 @@ class ProfileHeaderView: UIView {
     private let cancelButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .gray
+        button.tintColor = .white
         //button.tintColor = .black
 
         button.alpha = 1
 
-        button.frame = CGRect(x: 400, y: 10, width: 10, height: 10)
+        button.frame = CGRect(x: 400, y: 15, width: 15, height: 15)
        // button.imageView = UIImage(named: "clear")
         button.setImage(UIImage(systemName: "clear" ), for: .normal)
+        button.addTarget(ProfileHeaderView.self, action: #selector(cancelPressed), for: .touchUpInside)
 
         return button
     }()
@@ -164,6 +166,7 @@ class ProfileHeaderView: UIView {
         // эти две строчки не работают почему-то
         dogImageView.addGestureRecognizer(tapGestureRecognizer)
         tapGestureRecognizer.addTarget(self, action: #selector(handTapGesture))
+        //tapGestureRecognizer.numberOfTouchesRequired = 1
         //dogImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handTapGesture)))
 
         //зато поменяла те строчки на эту - более-менее заработало
@@ -187,7 +190,7 @@ class ProfileHeaderView: UIView {
 //        backgroundViewBottomConstraint = backgroundView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
 //
         cancelButtonTopConstraint = cancelButton.topAnchor.constraint(equalTo: backgroundView.topAnchor)
-        cancelButtonTrailingConstraint = cancelButton.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor)
+        cancelButtonTrailingConstraint = cancelButton.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: -40)
         cancelButtonWidthConstraint = cancelButton.widthAnchor.constraint(equalToConstant: 20)
         cancelButtonHeightConstraint = cancelButton.heightAnchor.constraint(equalToConstant: 20)
 
@@ -299,7 +302,32 @@ class ProfileHeaderView: UIView {
 //            ])
         }
         isBig.toggle()
-        UIView.animate(withDuration: 1) {
+
+//        let aGroup = CAAnimationGroup()
+//        aGroup.duration = 1
+//        aGroup.animations = []
+//        dogImageView.add(aGroup, forKey: "1")
+
+
+        UIView.animateKeyframes(withDuration: 2, delay: 0) {
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5) {
+                self.dogImageView.layer.cornerRadius = 0
+
+                self.dogImageView.center.y =  UIScreen.main.bounds.height/2
+                self.dogImageView.center.x = UIScreen.main.bounds.width/2
+            }
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5) {
+                self.backgroundView.center.y =  UIScreen.main.bounds.height/2
+                self.backgroundView.center.x = UIScreen.main.bounds.width/2
+                self.backgroundView.alpha = 0.8
+            }
+            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.3) {
+                self.cancelButton.backgroundColor = .systemBlue.withAlphaComponent(2)
+            }
+            self.layoutIfNeeded()
+        }
+
+//        UIView.animate(withDuration: 1) {
 
 //            self.backgroundView.alpha = 0.5
 //
@@ -309,20 +337,27 @@ class ProfileHeaderView: UIView {
 //            self.backgroundView.contentMode = .center
 //            backgroundView.transform = .
 
-            self.dogImageView.layer.cornerRadius = 0
 
-            self.dogImageView.center.y =  UIScreen.main.bounds.height/2
-            self.dogImageView.center.x = UIScreen.main.bounds.width/2
+
+            // 3 строчки вниз работают
+//            self.dogImageView.layer.cornerRadius = 0
+//
+//            self.dogImageView.center.y =  UIScreen.main.bounds.height/2
+//            self.dogImageView.center.x = UIScreen.main.bounds.width/2
 
 //            self.backgroundView.backgroundColor = .systemGray.withAlphaComponent(0.8)
            // self.backgroundView.alpha = 6
 
-            self.backgroundView.center.y =  UIScreen.main.bounds.height/2
-            self.backgroundView.center.x = UIScreen.main.bounds.width/2
-            self.backgroundView.alpha = 0.8
+            // это работает - 4 строчки
 
-            self.cancelButton.backgroundColor = .systemGray.withAlphaComponent(0.8)
+//            self.backgroundView.center.y =  UIScreen.main.bounds.height/2
+//            self.backgroundView.center.x = UIScreen.main.bounds.width/2
+//            self.backgroundView.alpha = 0.8
+
+//            self.cancelButton.backgroundColor = .systemGray.withAlphaComponent(0.8)
             
+
+
 
 //            self.dogImageView.layer.cornerRadius = self.isBig
 //                       ? 55
@@ -331,10 +366,8 @@ class ProfileHeaderView: UIView {
 //            self.backgroundView.alpha = self.isBig
 //                       ? 0.8
 //                        : 0
-                       self.layoutIfNeeded()
-                   }
-
-
+//                       self.layoutIfNeeded()
+//                   }
 
         }
 
@@ -348,7 +381,18 @@ class ProfileHeaderView: UIView {
 ////            : 1
 ////            self.layoutIfNeeded()
 //        }
+    @objc private func cancelPressed() {
+        NSLayoutConstraint.deactivate([
+            cancelButtonTopConstraint,
+            cancelButtonTrailingConstraint,
+            cancelButtonWidthConstraint,
+            cancelButtonHeightConstraint
+            ])
+        dogImageView.layer.cornerRadius = 110/2
+        backgroundView.alpha = 0
 
+
+    }
 
     
     @objc private func buttonPressed() {
