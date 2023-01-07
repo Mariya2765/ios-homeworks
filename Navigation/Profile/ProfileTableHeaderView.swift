@@ -8,49 +8,32 @@
 import Foundation
 import UIKit
 
+protocol ProfileHeaderViewDelegate: AnyObject {
+    func dogImageViewTapped()
+}
+
 class ProfileHeaderView: UIView {
 
     private let tapGestureRecognizer = UITapGestureRecognizer()
 
-    private var dogViewTopConstraint: NSLayoutConstraint!
-    private var dogViewLeadingConstraint: NSLayoutConstraint!
-    private var dogViewWidthConstraint: NSLayoutConstraint!
-
-    private var dogViewCenterXconstraint: NSLayoutConstraint!
-    private var dogViewCenterYconstraint: NSLayoutConstraint!
-    private var widthToScreenConstraint: NSLayoutConstraint!
-    private var widthDogView: NSLayoutConstraint!
-
-    private var backgroundViewTopConstraint: NSLayoutConstraint!
-    private var backgroundViewBottomConstraint: NSLayoutConstraint!
-    private var backgroundViewHeightConstraint: NSLayoutConstraint!
-    private var backgroundViewWidthConstraint: NSLayoutConstraint!
-
-    private var cancelButtonTopConstraint: NSLayoutConstraint!
-    private var cancelButtonTrailingConstraint: NSLayoutConstraint!
-    private var cancelButtonWidthConstraint: NSLayoutConstraint!
-    private var cancelButtonHeightConstraint: NSLayoutConstraint!
+    weak var delegate: ProfileHeaderViewDelegate?
 
 
-    private var isBig = false
 
     private var statusText: String = ""
 
-    private let cancelButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .gray
-        button.tintColor = .white
-        //button.tintColor = .black
-
-        button.alpha = 1
-
-        button.frame = CGRect(x: 400, y: 15, width: 15, height: 15)
-       // button.imageView = UIImage(named: "clear")
-        button.setImage(UIImage(systemName: "clear" ), for: .normal)
-        button.addTarget(ProfileHeaderView.self, action: #selector(cancelPressed), for: .touchUpInside)
-
-        return button
-    }()
+//    private let cancelButton: UIButton = {
+//        let button = UIButton()
+//        button.backgroundColor = .gray
+//        button.tintColor = .white
+//        button.alpha = 1
+//
+//        button.frame = CGRect(x: 400, y: 15, width: 15, height: 15)
+//       // button.imageView = UIImage(named: "clear")
+//        button.setImage(UIImage(systemName: "clear" ), for: .normal)
+//
+//        return button
+//    }()
 
 
     private let backgroundView: UIView = {
@@ -123,20 +106,18 @@ class ProfileHeaderView: UIView {
     }()
     
     lazy var dogImageView: UIImageView = {
-        let image = UIImageView()
-        image.image = UIImage(named: "dog")
-        image.layer.borderWidth = 3
-        image.layer.borderColor = UIColor.white.cgColor
-        image.layer.cornerRadius = 110 / 2
-        image.layer.masksToBounds = true
-        image.contentMode = .scaleAspectFill
-        image.translatesAutoresizingMaskIntoConstraints = false
-        image.isUserInteractionEnabled = true
+        let imageView = UIImageView()
+        
+        imageView.image = UIImage(named: "dog")
+        imageView.layer.borderWidth = 3
+        imageView.layer.borderColor = UIColor.white.cgColor
+        imageView.layer.cornerRadius = 110 / 2
+        imageView.layer.masksToBounds = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.isUserInteractionEnabled = true
 
-
-        image.viewPrintFormatter()
-
-        return image
+        return imageView
         
     }()
 
@@ -154,7 +135,11 @@ class ProfileHeaderView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func addElements() {
+    func setImageVisible() {
+        dogImageView.isHidden = false
+    }
+    
+   private func addElements() {
         addSubview(backgroundView)
         addSubview(profileLabel)
         addSubview(statusLabel)
@@ -162,61 +147,22 @@ class ProfileHeaderView: UIView {
         addSubview(setStatusButton)
         addSubview(textField)
 
-        backgroundView.addSubview(cancelButton)
-        // эти две строчки не работают почему-то
+        
+
         dogImageView.addGestureRecognizer(tapGestureRecognizer)
         tapGestureRecognizer.addTarget(self, action: #selector(handTapGesture))
-        //tapGestureRecognizer.numberOfTouchesRequired = 1
-        //dogImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handTapGesture)))
 
-        //зато поменяла те строчки на эту - более-менее заработало
-        //addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handTapGesture)))
     }
     
-    func addConstraints() {
-
-        dogViewLeadingConstraint = dogImageView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16)
-        dogViewTopConstraint = dogImageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16)
-        dogViewWidthConstraint = dogImageView.widthAnchor.constraint(equalToConstant: 110)
-        
-        dogViewCenterXconstraint = dogImageView.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor)
-        dogViewCenterYconstraint = dogImageView.centerYAnchor.constraint(equalTo: safeAreaLayoutGuide.centerYAnchor)
-        widthToScreenConstraint = dogImageView.widthAnchor.constraint(equalTo: safeAreaLayoutGuide.widthAnchor, constant: -5)
-        widthDogView = dogImageView.widthAnchor.constraint(equalTo: safeAreaLayoutGuide.widthAnchor)
-
-//        backgroundViewLeadingConstraint = backgroundView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor)
-//        backgroundViewTrailingConstraint = backgroundView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
-//        backgroundViewTopConstraint = backgroundView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor)
-//        backgroundViewBottomConstraint = backgroundView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
-//
-        cancelButtonTopConstraint = cancelButton.topAnchor.constraint(equalTo: backgroundView.topAnchor)
-        cancelButtonTrailingConstraint = cancelButton.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: -40)
-        cancelButtonWidthConstraint = cancelButton.widthAnchor.constraint(equalToConstant: 20)
-        cancelButtonHeightConstraint = cancelButton.heightAnchor.constraint(equalToConstant: 20)
-
-        backgroundViewTopConstraint = backgroundView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor)
-        backgroundViewBottomConstraint = backgroundView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
-        backgroundViewHeightConstraint = backgroundView.heightAnchor.constraint(equalTo: safeAreaLayoutGuide.heightAnchor)
-        backgroundViewWidthConstraint = backgroundView.widthAnchor.constraint(equalTo: safeAreaLayoutGuide.widthAnchor)
+   private func addConstraints() {
 
         NSLayoutConstraint.activate([
 
-            dogViewWidthConstraint,
-            dogViewLeadingConstraint,
-            dogViewTopConstraint,
-            dogImageView.heightAnchor.constraint(equalTo: dogImageView.widthAnchor),
+            dogImageView.widthAnchor.constraint(equalToConstant: 110),
+            dogImageView.heightAnchor.constraint(equalToConstant: 110),
+            dogImageView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            dogImageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
 
-            backgroundViewTopConstraint,
-                            backgroundViewBottomConstraint,
-                            backgroundViewHeightConstraint,
-                            backgroundViewWidthConstraint,
-
-            cancelButtonTopConstraint,
-            cancelButtonTrailingConstraint,
-            cancelButtonWidthConstraint,
-            cancelButtonHeightConstraint,
-
-            
             profileLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 27),
             profileLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 150),
             profileLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
@@ -240,161 +186,55 @@ class ProfileHeaderView: UIView {
     }
     
     
-    func configure(title: String, image: UIImage) {
+   private func configure(title: String, image: UIImage) {
         profileLabel.text = title
         dogImageView.image = image
     }
 
     @objc func handTapGesture(_ gestureRecognizer: UITapGestureRecognizer) {
-        if isBig {
-//            NSLayoutConstraint.deactivate([
-//                backgroundViewTopConstraint,
-//                backgroundViewBottomConstraint,
-//                backgroundViewHeightConstraint,
-//                backgroundViewWidthConstraint
-//                dogViewCenterXconstraint,
-//                dogViewCenterYconstraint,
-//                widthToScreenConstraint,
-//                backgroundViewTopConstraint,
-//                backgroundViewBottomConstraint,
-//                backgroundViewLeadingConstraint,
-//                backgroundViewTrailingConstraint,
-
-//            ])
-            NSLayoutConstraint.activate([
-                cancelButtonTopConstraint,
-                cancelButtonTrailingConstraint,
-                cancelButtonWidthConstraint,
-                cancelButtonHeightConstraint
-//            widthDogView
-//                dogViewWidthConstraint,
-//                dogViewLeadingConstraint,
-//                dogViewTopConstraint
-            ])
-//            print("yes")
-        } else {
-            NSLayoutConstraint.deactivate([
-                cancelButtonTopConstraint,
-                cancelButtonTrailingConstraint,
-                cancelButtonWidthConstraint,
-                cancelButtonHeightConstraint
-//            widthDogView
-//                dogViewWidthConstraint,
-//                dogViewLeadingConstraint,
-//                dogViewTopConstraint
-            ])
+       // dogImageView.isHidden = true
+        delegate?.dogImageViewTapped()
+//        if isBig {
+//
 //            NSLayoutConstraint.activate([
-//                backgroundViewTopConstraint,
-//                backgroundViewBottomConstraint,
-//                backgroundViewHeightConstraint,
-//                backgroundViewWidthConstraint
-//                dogViewCenterXconstraint,
-//                dogViewCenterYconstraint,
-//                widthToScreenConstraint,
-//                backgroundViewTopConstraint,
-//                backgroundViewBottomConstraint,
-//                backgroundViewLeadingConstraint,
-//                backgroundViewTrailingConstraint,
-////                cancelButtonTopConstraint,
-////                cancelButtonTrailingConstraint,
-////                cancelButtonWidthConstraint,
-////                cancelButtonHeightConstraint
+//                cancelButtonTopConstraint,
+//                cancelButtonTrailingConstraint,
+//                cancelButtonWidthConstraint,
+//                cancelButtonHeightConstraint
+//
 //            ])
-        }
-        isBig.toggle()
-
-//        let aGroup = CAAnimationGroup()
-//        aGroup.duration = 1
-//        aGroup.animations = []
-//        dogImageView.add(aGroup, forKey: "1")
-
-
-        UIView.animateKeyframes(withDuration: 2, delay: 0) {
-            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5) {
-                self.dogImageView.layer.cornerRadius = 0
-
-                self.dogImageView.center.y =  UIScreen.main.bounds.height/2
-                self.dogImageView.center.x = UIScreen.main.bounds.width/2
-            }
-            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5) {
-                self.backgroundView.center.y =  UIScreen.main.bounds.height/2
-                self.backgroundView.center.x = UIScreen.main.bounds.width/2
-                self.backgroundView.alpha = 0.8
-            }
-            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.3) {
-                self.cancelButton.backgroundColor = .systemBlue.withAlphaComponent(2)
-            }
-            self.layoutIfNeeded()
-        }
-
-//        UIView.animate(withDuration: 1) {
-
-//            self.backgroundView.alpha = 0.5
+//        } else {
+//            NSLayoutConstraint.deactivate([
+//                cancelButtonTopConstraint,
+//                cancelButtonTrailingConstraint,
+//                cancelButtonWidthConstraint,
+//                cancelButtonHeightConstraint
 //
-//            self.backgroundView.center.y = UIScreen.main.bounds.height/2
-//            self.backgroundView.center.x = UIScreen.main.bounds.width/2
-
-//            self.backgroundView.contentMode = .center
-//            backgroundView.transform = .
-
-
-
-            // 3 строчки вниз работают
-//            self.dogImageView.layer.cornerRadius = 0
+//            ])
 //
-//            self.dogImageView.center.y =  UIScreen.main.bounds.height/2
-//            self.dogImageView.center.x = UIScreen.main.bounds.width/2
-
-//            self.backgroundView.backgroundColor = .systemGray.withAlphaComponent(0.8)
-           // self.backgroundView.alpha = 6
-
-            // это работает - 4 строчки
-
-//            self.backgroundView.center.y =  UIScreen.main.bounds.height/2
-//            self.backgroundView.center.x = UIScreen.main.bounds.width/2
-//            self.backgroundView.alpha = 0.8
-
-//            self.cancelButton.backgroundColor = .systemGray.withAlphaComponent(0.8)
-            
-
-
-
-//            self.dogImageView.layer.cornerRadius = self.isBig
-//                       ? 55
-//                        : 0
-//
-//            self.backgroundView.alpha = self.isBig
-//                       ? 0.8
-//                        : 0
-//                       self.layoutIfNeeded()
-//                   }
-
-        }
-
-
-//        UIView.animate(withDuration: 1) {
-//            self.dogImageView.layer.cornerRadius = self.isBig
-//            ? 55
-//             : 0
-////            self.backgroundView.alpha = self.isBig
-////            ? 0
-////            : 1
-////            self.layoutIfNeeded()
 //        }
-    @objc private func cancelPressed() {
-        NSLayoutConstraint.deactivate([
-            cancelButtonTopConstraint,
-            cancelButtonTrailingConstraint,
-            cancelButtonWidthConstraint,
-            cancelButtonHeightConstraint
-            ])
-        dogImageView.layer.cornerRadius = 110/2
-        backgroundView.alpha = 0
-
-
+//        isBig.toggle()
+//
+//        UIView.animateKeyframes(withDuration: 2, delay: 0) {
+//            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5) {
+//                self.dogImageView.layer.cornerRadius = 0
+//
+//                self.dogImageView.center.y =  UIScreen.main.bounds.height/2
+//                self.dogImageView.center.x = UIScreen.main.bounds.width/2
+//            }
+//            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5) {
+//                self.backgroundView.center.y =  UIScreen.main.bounds.height/2
+//                self.backgroundView.center.x = UIScreen.main.bounds.width/2
+//                self.backgroundView.alpha = 0.8
+//            }
+//            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.3) {
+//                self.cancelButton.backgroundColor = .systemBlue.withAlphaComponent(2)
+//            }
+//            self.layoutIfNeeded()
+//        }
     }
 
-    
+
     @objc private func buttonPressed() {
         statusLabel.text = statusText
         self.endEditing(true)
