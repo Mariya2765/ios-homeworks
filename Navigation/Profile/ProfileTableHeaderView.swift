@@ -18,32 +18,13 @@ class ProfileHeaderView: UIView {
 
     weak var delegate: ProfileHeaderViewDelegate?
 
-
-
     private var statusText: String = ""
-
-//    private let cancelButton: UIButton = {
-//        let button = UIButton()
-//        button.backgroundColor = .gray
-//        button.tintColor = .white
-//        button.alpha = 1
-//
-//        button.frame = CGRect(x: 400, y: 15, width: 15, height: 15)
-//       // button.imageView = UIImage(named: "clear")
-//        button.setImage(UIImage(systemName: "clear" ), for: .normal)
-//
-//        return button
-//    }()
-
 
     private let backgroundView: UIView = {
         let deactiveView = UIView()
         deactiveView.frame = CGRect(x: 0, y: 0, width: 200, height: 500)
-//        deactiveView.contentMode = .scaleAspectFit
         deactiveView.backgroundColor = .systemGray
         deactiveView.alpha = 0
-        //deactiveView.backgroundColor = .systemMint.withAlphaComponent(0)
-//        deactiveView.backgroundColor = .systemMint.withAlphaComponent(0.8)
         deactiveView.translatesAutoresizingMaskIntoConstraints = false
 
         return deactiveView
@@ -121,7 +102,6 @@ class ProfileHeaderView: UIView {
         
     }()
 
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -139,19 +119,15 @@ class ProfileHeaderView: UIView {
         dogImageView.isHidden = false
     }
     
-   private func addElements() {
+    private func addElements() {
         addSubview(backgroundView)
         addSubview(profileLabel)
         addSubview(statusLabel)
         addSubview(dogImageView)
         addSubview(setStatusButton)
         addSubview(textField)
-
-        
-
         dogImageView.addGestureRecognizer(tapGestureRecognizer)
         tapGestureRecognizer.addTarget(self, action: #selector(handTapGesture))
-
     }
     
    private func addConstraints() {
@@ -180,69 +156,25 @@ class ProfileHeaderView: UIView {
             textField.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 150),
             textField.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
             textField.heightAnchor.constraint(equalToConstant: 40)
-
         ])
-        
     }
-    
-    
-   private func configure(title: String, image: UIImage) {
+
+    private func configure(title: String, image: UIImage) {
         profileLabel.text = title
         dogImageView.image = image
     }
 
     @objc func handTapGesture(_ gestureRecognizer: UITapGestureRecognizer) {
-       // dogImageView.isHidden = true
+        dogImageView.isHidden = true
         delegate?.dogImageViewTapped()
-//        if isBig {
-//
-//            NSLayoutConstraint.activate([
-//                cancelButtonTopConstraint,
-//                cancelButtonTrailingConstraint,
-//                cancelButtonWidthConstraint,
-//                cancelButtonHeightConstraint
-//
-//            ])
-//        } else {
-//            NSLayoutConstraint.deactivate([
-//                cancelButtonTopConstraint,
-//                cancelButtonTrailingConstraint,
-//                cancelButtonWidthConstraint,
-//                cancelButtonHeightConstraint
-//
-//            ])
-//
-//        }
-//        isBig.toggle()
-//
-//        UIView.animateKeyframes(withDuration: 2, delay: 0) {
-//            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5) {
-//                self.dogImageView.layer.cornerRadius = 0
-//
-//                self.dogImageView.center.y =  UIScreen.main.bounds.height/2
-//                self.dogImageView.center.x = UIScreen.main.bounds.width/2
-//            }
-//            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5) {
-//                self.backgroundView.center.y =  UIScreen.main.bounds.height/2
-//                self.backgroundView.center.x = UIScreen.main.bounds.width/2
-//                self.backgroundView.alpha = 0.8
-//            }
-//            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.3) {
-//                self.cancelButton.backgroundColor = .systemBlue.withAlphaComponent(2)
-//            }
-//            self.layoutIfNeeded()
-//        }
     }
-
 
     @objc private func buttonPressed() {
         statusLabel.text = statusText
         self.endEditing(true)
-        
     }
     
     @objc private func statusTextChanged(_ textField: UITextField) {
         statusText = textField.text ?? "error"
-        
     }
 }

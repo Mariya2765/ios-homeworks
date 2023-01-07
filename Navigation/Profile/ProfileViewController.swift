@@ -30,8 +30,6 @@ class ProfileViewController: UIViewController {
         return tableView
     }()
 
-
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -53,21 +51,18 @@ class ProfileViewController: UIViewController {
         ])
     }
 
-
 }
 
+// настройка анимации
 extension ProfileViewController: ProfileHeaderViewDelegate {
     func dogImageViewTapped() {
-        let previewView = PreviewWithImage()
-        previewView.frame = .init(
+        let previewView = PreviewWithImage(frame: .init(
             origin: .zero,
             size: view.window?.frame.size ?? .zero
-        )
+        ))
         previewView.delegate = self
         view.window?.addSubview(previewView)
-
-        
-}
+    }
 }
 
 extension ProfileViewController: PreviewViewWithImageDelegate {
@@ -80,7 +75,6 @@ extension ProfileViewController: PreviewViewWithImageDelegate {
 
 // UIDataSource
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
-
 
     func numberOfSections(in tableView: UITableView) -> Int {
         2
