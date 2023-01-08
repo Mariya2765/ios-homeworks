@@ -67,8 +67,8 @@ class PreviewWithImage: UIView {
 
     private func addElements() {
 
-        addSubview(dogImageView)
         addSubview(backgroundView)
+        addSubview(dogImageView)
         addSubview(closeButton)
     }
 
