@@ -43,7 +43,12 @@ class PreviewWithImage: UIView {
 
     lazy var closeButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setImage(UIImage(systemName: "xmark.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 30)), for: .normal)
+        button.setImage(
+            UIImage(
+                systemName: "xmark.circle",
+                withConfiguration: UIImage.SymbolConfiguration(pointSize: 30)),
+                for: .normal
+            )
         button.tintColor = .white
         button.addTarget(self, action: #selector(handleButtonTap), for: .touchUpInside)
 
@@ -73,7 +78,11 @@ class PreviewWithImage: UIView {
 
         UIView.animate(
             withDuration: 0.8,
-            animations:  { self.dogImageView.frame = .init(origin: .init(x: 16, y: 114), size: .init(width: 110, height: 110))
+            animations:  {
+                self.dogImageView.frame = .init(
+                    origin: .init(x: 16, y: 114),
+                    size: .init(width: 110, height: 110)
+                )
                 self.backgroundView.alpha = 0
                 self.closeButton.alpha = 0
                 self.dogImageView.layer.cornerRadius = 110 / 2
@@ -81,7 +90,6 @@ class PreviewWithImage: UIView {
             completion: { _ in
                 self.delegate?.animationWasEnded()
                 self.removeFromSuperview()
-
             }
         )
     }
