@@ -38,7 +38,8 @@ class ProfileViewController: UIViewController {
         addConstraintsOfTableView()
         self.tableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: Constants.collectionID)
         tableView.sectionFooterHeight = 0.0
-       
+        headerView.delegate = self
+
     }
 
     private func addConstraintsOfTableView() {
@@ -49,11 +50,31 @@ class ProfileViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
+
 }
+
+// настройка анимации
+extension ProfileViewController: ProfileHeaderViewDelegate {
+    func dogImageViewTapped() {
+        let previewView = PreviewWithImage(frame: .init(
+            origin: .zero,
+            size: view.window?.frame.size ?? .zero
+        ))
+        previewView.delegate = self
+        view.window?.addSubview(previewView)
+    }
+}
+
+extension ProfileViewController: PreviewViewWithImageDelegate {
+
+    func animationWasEnded() {
+        headerView.setImageVisible()
+    }
+}
+
 
 // UIDataSource
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
-
 
     func numberOfSections(in tableView: UITableView) -> Int {
         2

@@ -8,9 +8,28 @@
 import Foundation
 import UIKit
 
+protocol ProfileHeaderViewDelegate: AnyObject {
+    func dogImageViewTapped()
+}
+
 class ProfileHeaderView: UIView {
-    
+
+    private let tapGestureRecognizer = UITapGestureRecognizer()
+
+    weak var delegate: ProfileHeaderViewDelegate?
+
     private var statusText: String = ""
+
+    private let backgroundView: UIView = {
+        let deactiveView = UIView()
+        deactiveView.frame = CGRect(x: 0, y: 0, width: 200, height: 500)
+        deactiveView.backgroundColor = .systemGray
+        deactiveView.alpha = 0
+        deactiveView.translatesAutoresizingMaskIntoConstraints = false
+
+        return deactiveView
+    }()
+
     let statusLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14)
@@ -67,49 +86,59 @@ class ProfileHeaderView: UIView {
         
     }()
     
-    var dogImageView: UIImageView = {
-        let image = UIImageView()
-        image.image = UIImage(named: "dog")
-        image.layer.borderWidth = 3
-        image.layer.borderColor = UIColor.white.cgColor
-        image.layer.cornerRadius = 110 / 2
-        image.layer.masksToBounds = true
-        image.contentMode = .scaleAspectFill
-        image.translatesAutoresizingMaskIntoConstraints = false
+    lazy var dogImageView: UIImageView = {
+        let imageView = UIImageView()
         
-        return image
+        imageView.image = UIImage(named: "dog")
+        imageView.layer.borderWidth = 3
+        imageView.layer.borderColor = UIColor.white.cgColor
+        imageView.layer.cornerRadius = 110 / 2
+        imageView.layer.masksToBounds = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.isUserInteractionEnabled = true
+
+        return imageView
         
     }()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         backgroundColor = .lightGray
         addElements()
         addConstraints()
-        
+
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func addElements() {
+    func setImageVisible() {
+        dogImageView.isHidden = false
+    }
+    
+    private func addElements() {
+        addSubview(backgroundView)
         addSubview(profileLabel)
         addSubview(statusLabel)
         addSubview(dogImageView)
         addSubview(setStatusButton)
         addSubview(textField)
+        dogImageView.addGestureRecognizer(tapGestureRecognizer)
+        tapGestureRecognizer.addTarget(self, action: #selector(handTapGesture))
     }
     
-    func addConstraints() {
+   private func addConstraints() {
+
         NSLayoutConstraint.activate([
-            
+
             dogImageView.widthAnchor.constraint(equalToConstant: 110),
             dogImageView.heightAnchor.constraint(equalToConstant: 110),
             dogImageView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16),
             dogImageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
-            
+
             profileLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 27),
             profileLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 150),
             profileLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
@@ -126,26 +155,26 @@ class ProfileHeaderView: UIView {
             textField.bottomAnchor.constraint(equalTo: setStatusButton.topAnchor, constant: -10),
             textField.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 150),
             textField.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            textField.heightAnchor.constraint(equalToConstant: 40),
-
+            textField.heightAnchor.constraint(equalToConstant: 40)
         ])
-        
     }
-    
-    
-    func configure(title: String, image: UIImage) {
+
+    private func configure(title: String, image: UIImage) {
         profileLabel.text = title
         dogImageView.image = image
     }
-    
+
+    @objc func handTapGesture(_ gestureRecognizer: UITapGestureRecognizer) {
+        dogImageView.isHidden = true
+        delegate?.dogImageViewTapped()
+    }
+
     @objc private func buttonPressed() {
         statusLabel.text = statusText
         self.endEditing(true)
-        
     }
     
     @objc private func statusTextChanged(_ textField: UITextField) {
         statusText = textField.text ?? "error"
-        
     }
 }
