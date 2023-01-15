@@ -17,6 +17,7 @@ class LogInViewController: UIViewController {
         logoView.logInButton.addTarget(self, action: #selector(logInButtonAction), for: .touchUpInside)
         
         logoView.translatesAutoresizingMaskIntoConstraints = false
+//        logoView.delegate = self
         
         addConstraints()
     }
@@ -68,4 +69,11 @@ class LogInViewController: UIViewController {
         self.logoView.scrollView.contentInset = .zero
         self.logoView.scrollView.scrollIndicatorInsets = .zero
     }
+
+
+}
+
+extension LogInViewController: LogInViewDelegate {
+
+    
 }

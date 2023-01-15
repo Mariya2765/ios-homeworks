@@ -8,7 +8,19 @@
 import Foundation
 import UIKit
 
+protocol LogInViewDelegate: AnyObject {
+//    func textFieldShouldReturn()
+
+}
+
+
 class LogInView: UIView {
+
+    weak var delegate: LogInViewDelegate?
+    private var pass = "123"
+    private var loginText: String = ""
+    private var passwordText: String = ""
+
 
     var logoImage: UIImageView = {
         let image = UIImageView()
@@ -55,6 +67,8 @@ class LogInView: UIView {
         tfLogin.placeholder = "Email or phone"
         tfLogin.textAlignment = .left
         tfLogin.tintColor = UIColor(named: "My set")
+        tfLogin.addTarget(self, action: #selector(tfLoginWasChanged), for: .editingChanged)
+        tfLogin.tag = 1
         
         let spaceView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         tfLogin.leftViewMode = .always
@@ -79,6 +93,9 @@ class LogInView: UIView {
         tfPassword.isSecureTextEntry = true
         tfPassword.placeholder = "Password"
         tfPassword.textAlignment = .justified
+        tfPassword.addTarget(self, action: #selector(tfPasswordWasChanged), for: .editingChanged)
+        tfPassword.tag = 1
+
         let spaceView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         tfPassword.leftViewMode = .always
         tfPassword.leftView = spaceView
@@ -170,7 +187,45 @@ class LogInView: UIView {
         logoImage.image = image
     }
 
+    
+
+    @objc func tfLoginWasChanged() {
+        loginText = loginTextField.text ?? "error"
+    }
+
+    @objc func tfPasswordWasChanged() {
+        passwordText = passwordTextField.text ?? "error"
+    }
+
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if passwordTextField.tag == 1 {
+            if (passwordTextField.text != pass) {
+
+                passwordTextField.shakeLogin()
+            }
+        } else {
+//                let isValid = loginTextField.text?.isValidEmail() ?? false
+                passwordTextField.shakeLogin()
+        }
+
+return false
 }
+
+}
+
+extension UITextField {
+    func shakeLogin() {
+        let shakeAnimation = CABasicAnimation(keyPath: "position")
+        shakeAnimation.duration = 0.05
+        shakeAnimation.repeatCount = 6
+        shakeAnimation.autoreverses = true
+        shakeAnimation.fromValue = CGPoint(x: self.center.x - 4, y: self.center.y)
+        shakeAnimation.toValue = CGPoint(x: self.center.x + 4, y: self.center.y)
+        layer.add(shakeAnimation, forKey: "position")
+    }
+}
+
 // функция для изменения картинки прозрачности
 extension UIImage {
     func imageWithAlpha(alpha: CGFloat) -> UIImage {
