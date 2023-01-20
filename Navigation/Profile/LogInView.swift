@@ -12,7 +12,9 @@ import UIKit
 class LogInView: UIView, UITextFieldDelegate {
 
 
-    private var pass = "123"
+//    private var pass = "123"
+    var standartLogin = "123@list.ru"
+    var standartPassword = "1234567"
 
     var logoImage: UIImageView = {
         let image = UIImageView()
@@ -60,7 +62,7 @@ class LogInView: UIView, UITextFieldDelegate {
         tfLogin.textAlignment = .left
         tfLogin.tintColor = UIColor(named: "My set")
         tfLogin.delegate = self
-        tfLogin.addTarget(self, action: #selector(tfWasChanged), for: .editingChanged)
+//        tfLogin.addTarget(self, action: #selector(tfWasChanged), for: .editingChanged)
         tfLogin.tag = 1
         
         let spaceView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
@@ -88,7 +90,7 @@ class LogInView: UIView, UITextFieldDelegate {
         tfPassword.textAlignment = .justified
         tfPassword.delegate = self
         tfPassword.addTarget(self, action: #selector(tfWasChanged), for: .editingChanged)
-        tfPassword.tag = 1
+        tfPassword.tag = 2
 
         let spaceView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         tfPassword.leftViewMode = .always
@@ -96,6 +98,18 @@ class LogInView: UIView, UITextFieldDelegate {
         tfPassword.translatesAutoresizingMaskIntoConstraints = false
 
         return tfPassword
+
+    }()
+
+    let hiddenLabel: UILabel = {
+        let textLabel = UILabel()
+        textLabel.translatesAutoresizingMaskIntoConstraints = false
+        textLabel.text = "Количество символов меньше 5"
+        textLabel.font = .systemFont(ofSize: 10)
+        textLabel.textColor = .red
+        textLabel.isHidden = true
+
+        return textLabel
 
     }()
 
@@ -133,6 +147,7 @@ class LogInView: UIView, UITextFieldDelegate {
         contentView.addSubview(passwordTextField)
         contentView.addSubview(logInButton)
         contentView.addSubview(logoImage)
+        contentView.addSubview(hiddenLabel)
 
     }
 
@@ -172,7 +187,11 @@ class LogInView: UIView, UITextFieldDelegate {
             logInButton.heightAnchor.constraint(equalToConstant: 50),
             logInButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             logInButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            logInButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12) // обязательная привязка низа contentView
+            logInButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12), // обязательная привязка низа contentView
+
+            hiddenLabel.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 3),
+            hiddenLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            hiddenLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
         ])
     }
     
@@ -183,34 +202,48 @@ class LogInView: UIView, UITextFieldDelegate {
 
     
 
-    @objc func tfWasChanged() {
-//        loginText = loginTextField.text ?? "error"
+    @objc func tfWasChanged(_textField: UITextField) {
+        let passwordTextCount = passwordTextField.text?.count
+        if let tc = passwordTextCount {
+            if tc < 5 {
+                if tc == 0 {
+                    hiddenLabel.isHidden = true
+                } else {
+                    hiddenLabel.isHidden = false
+                }
+                
+            } else {
+                hiddenLabel.isHidden = true
+            }
+        }
+
     }
 
+    func presentAlertController() {
+        let alertController = UIAlertController(title: "Внимание", message: "Неверный логин или пароль", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in print()}))
+        alertController.addAction(.init(title: "", style: .cancel))
+//        present(alertController, animated: true)
+        presentAlertController()
+    }
+
+
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.layer.backgroundColor = UIColor.clear.cgColor
         if textField.tag == 1 {
+
             textField.shakeLogin()
-//            if textField.text != pass {
-//
-//            }
+        } else {
+
+            textField.shakeLogin()
         }
         return false
     }
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        if passwordTextField.tag == 1 {
-//            if (passwordTextField.text != pass) {
-//
-//                passwordTextField.shakeLogin()
-//            }
-//        } else {
-////                let isValid = loginTextField.text?.isValidEmail() ?? false
-//                passwordTextField.shakeLogin()
-//        }
-//
-//return false
-//}
-
 }
+
+
+
 
 extension UITextField {
     func shakeLogin() {
@@ -221,6 +254,7 @@ extension UITextField {
         shakeAnimation.fromValue = CGPoint(x: self.center.x - 4, y: self.center.y)
         shakeAnimation.toValue = CGPoint(x: self.center.x + 4, y: self.center.y)
         layer.add(shakeAnimation, forKey: "position")
+  
     }
 }
 
