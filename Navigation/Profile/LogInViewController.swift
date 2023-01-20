@@ -17,7 +17,7 @@ class LogInViewController: UIViewController {
         logoView.logInButton.addTarget(self, action: #selector(logInButtonAction), for: .touchUpInside)
         
         logoView.translatesAutoresizingMaskIntoConstraints = false
-//        logoView.delegate = self
+
         
         addConstraints()
     }
@@ -73,7 +73,3 @@ class LogInViewController: UIViewController {
 
 }
 
-extension LogInViewController: LogInViewDelegate {
-
-    
-}

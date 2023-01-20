@@ -8,19 +8,11 @@
 import Foundation
 import UIKit
 
-protocol LogInViewDelegate: AnyObject {
-//    func textFieldShouldReturn()
 
-}
+class LogInView: UIView, UITextFieldDelegate {
 
 
-class LogInView: UIView {
-
-    weak var delegate: LogInViewDelegate?
     private var pass = "123"
-    private var loginText: String = ""
-    private var passwordText: String = ""
-
 
     var logoImage: UIImageView = {
         let image = UIImageView()
@@ -52,7 +44,7 @@ class LogInView: UIView {
 
     }()
 
-    let loginTextField: UITextField = {
+    lazy var loginTextField: UITextField = {
         let tfLogin = UITextField()
 
         tfLogin.backgroundColor = .systemGray6
@@ -67,7 +59,8 @@ class LogInView: UIView {
         tfLogin.placeholder = "Email or phone"
         tfLogin.textAlignment = .left
         tfLogin.tintColor = UIColor(named: "My set")
-        tfLogin.addTarget(self, action: #selector(tfLoginWasChanged), for: .editingChanged)
+        tfLogin.delegate = self
+        tfLogin.addTarget(self, action: #selector(tfWasChanged), for: .editingChanged)
         tfLogin.tag = 1
         
         let spaceView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
@@ -79,7 +72,7 @@ class LogInView: UIView {
 
     }()
 
-    let passwordTextField: UITextField = {
+    lazy var passwordTextField: UITextField = {
         let tfPassword = UITextField()
         tfPassword.backgroundColor = .systemGray6
         tfPassword.layer.borderColor = UIColor.lightGray.cgColor
@@ -93,7 +86,8 @@ class LogInView: UIView {
         tfPassword.isSecureTextEntry = true
         tfPassword.placeholder = "Password"
         tfPassword.textAlignment = .justified
-        tfPassword.addTarget(self, action: #selector(tfPasswordWasChanged), for: .editingChanged)
+        tfPassword.delegate = self
+        tfPassword.addTarget(self, action: #selector(tfWasChanged), for: .editingChanged)
         tfPassword.tag = 1
 
         let spaceView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
@@ -189,36 +183,40 @@ class LogInView: UIView {
 
     
 
-    @objc func tfLoginWasChanged() {
-        loginText = loginTextField.text ?? "error"
+    @objc func tfWasChanged() {
+//        loginText = loginTextField.text ?? "error"
     }
-
-    @objc func tfPasswordWasChanged() {
-        passwordText = passwordTextField.text ?? "error"
-    }
-
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if passwordTextField.tag == 1 {
-            if (passwordTextField.text != pass) {
-
-                passwordTextField.shakeLogin()
-            }
-        } else {
-//                let isValid = loginTextField.text?.isValidEmail() ?? false
-                passwordTextField.shakeLogin()
+        if textField.tag == 1 {
+            textField.shakeLogin()
+//            if textField.text != pass {
+//
+//            }
         }
-
-return false
-}
+        return false
+    }
+//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//        if passwordTextField.tag == 1 {
+//            if (passwordTextField.text != pass) {
+//
+//                passwordTextField.shakeLogin()
+//            }
+//        } else {
+////                let isValid = loginTextField.text?.isValidEmail() ?? false
+//                passwordTextField.shakeLogin()
+//        }
+//
+//return false
+//}
 
 }
 
 extension UITextField {
     func shakeLogin() {
         let shakeAnimation = CABasicAnimation(keyPath: "position")
-        shakeAnimation.duration = 0.05
-        shakeAnimation.repeatCount = 6
+        shakeAnimation.duration = 0.06
+        shakeAnimation.repeatCount = 5
         shakeAnimation.autoreverses = true
         shakeAnimation.fromValue = CGPoint(x: self.center.x - 4, y: self.center.y)
         shakeAnimation.toValue = CGPoint(x: self.center.x + 4, y: self.center.y)
