@@ -9,6 +9,9 @@ import UIKit
 
 class LogInViewController: UIViewController {
     private let logoView = LogInView()
+
+    var standartLogin = "123@list.ru"
+    var standartPassword = "1234567"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,9 +55,23 @@ class LogInViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
+    // AlertController
+    func presentAlertController() {
+        let alertController = UIAlertController(title: "Внимание", message: "Неверный логин или пароль", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "ok", style: .default, handler: { _ in print()}))
+        alertController.addAction(.init(title: "cancel", style: .cancel))
+        present(alertController, animated: true)
+    }
+
     @objc private func logInButtonAction() {
         let profileVc = ProfileViewController()
-        navigationController?.pushViewController(profileVc, animated: true)
+        if logoView.loginTextField.text == standartLogin && logoView.passwordTextField.text == standartPassword {
+            navigationController?.pushViewController(profileVc, animated: true)
+        } else {
+            presentAlertController()
+        }
+
+
     }
     
     @objc func keyboardWillShow(_ notification: NSNotification) {

@@ -13,8 +13,7 @@ class LogInView: UIView, UITextFieldDelegate {
 
 
 //    private var pass = "123"
-    var standartLogin = "123@list.ru"
-    var standartPassword = "1234567"
+   
 
     var logoImage: UIImageView = {
         let image = UIImageView()
@@ -219,13 +218,7 @@ class LogInView: UIView, UITextFieldDelegate {
 
     }
 
-    func presentAlertController() {
-        let alertController = UIAlertController(title: "Внимание", message: "Неверный логин или пароль", preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in print()}))
-        alertController.addAction(.init(title: "", style: .cancel))
-//        present(alertController, animated: true)
-        presentAlertController()
-    }
+   
 
 
 
