@@ -61,7 +61,6 @@ class LogInView: UIView, UITextFieldDelegate {
         tfLogin.textAlignment = .left
         tfLogin.tintColor = UIColor(named: "My set")
         tfLogin.delegate = self
-//        tfLogin.addTarget(self, action: #selector(tfWasChanged), for: .editingChanged)
         tfLogin.tag = 1
         
         let spaceView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
@@ -227,9 +226,7 @@ class LogInView: UIView, UITextFieldDelegate {
             textField.shakeLogin()
             }
         } else {
-
                 textField.shakeLogin()
-
         }
         return false
     }
@@ -263,16 +260,16 @@ extension UIImage {
 // для проверки валидности email
 
 extension String {
-
+    
     func isValidEmail() -> Bool {
         var state = 0 // переменная состояния
         var idx = 0 // индекс
         var ch: Character
         var mark = 0
         var local = ""
-
+        
         var domain = [String]()
-
+        
         // оформляем первую букву как "\0" и проверяем дальше
         while state != -1 && idx <= self.count {
             // условие выхода и прохождения через все буквы
@@ -283,7 +280,7 @@ extension String {
                 if ch == "\0" {
                     return false
                 }
-
+                
             }
             switch state{
             case 0:
@@ -294,7 +291,7 @@ extension String {
             case 1:
                 if ((ch >= "a" && ch <= "z") || (ch >= "A" && ch <= "Z") || (ch >= "0" && ch <= "9") || ch == "_" || ch == "-" || ch == "+") {
                     break
-            }
+                }
                 if ch == "." {
                     state = 2
                     break
@@ -310,18 +307,18 @@ extension String {
                 if ((ch >= "a" && ch <= "z") || (ch >= "A" && ch <= "Z") || (ch >= "0" && ch <= "9") || ch == "_" || ch == "-" || ch == "+") {
                     state = 1
                     break
-        }
+                }
                 state = -1
             case 3:
                 if ((ch >= "a" && ch <= "z") || (ch >= "A" && ch <= "Z") || (ch >= "0" && ch <= "9")) {
                     state = 4
                     break
-    }
+                }
                 state = -1
             case 4:
                 if ((ch >= "a" && ch <= "z") || (ch >= "A" && ch <= "Z") || (ch >= "0" && ch <= "9")) {
                     break
-}
+                }
                 if ch == "-" {
                     state = 5
                     break
@@ -341,7 +338,7 @@ extension String {
                 if ((ch >= "a" && ch <= "z") || (ch >= "A" && ch <= "Z") || (ch >= "0" && ch <= "9")) {
                     state = 4
                     break
-}
+                }
                 if ch == "." {
                     break
                 }
@@ -350,10 +347,10 @@ extension String {
                 break
             default:
                 break
-        }
+            }
             idx += 1
-
-    }
+            
+        }
         if state != 6 {
             return false
         }
@@ -363,7 +360,7 @@ extension String {
         if self.count > 254 {
             return false
         }
-
+        
         idx = self.count - 1
         while idx > 0 {
             ch = self[idx]
@@ -380,18 +377,18 @@ extension String {
 }
 
 extension StringProtocol {
-
+    
     subscript(offset: Int) -> Character {
         self[self.index(at: offset)]
     }
-
+    
     //получаем индекс
     func subString(from: Int, to: Int) -> String {
         let startIndex = self.index(at: from)
         let endIndex = self.index(at: to)
         return String(self[startIndex..<endIndex])
     }
-
+    
     func index(at offset: Int) -> String.Index {
         index(startIndex, offsetBy: offset)
     }

@@ -12,7 +12,7 @@ protocol ProfileHeaderViewDelegate: AnyObject {
     func dogImageViewTapped()
 }
 
-class ProfileHeaderView: UIView {
+class ProfileHeaderView: UIView, UITextFieldDelegate {
 
     private let tapGestureRecognizer = UITapGestureRecognizer()
 
@@ -69,6 +69,7 @@ class ProfileHeaderView: UIView {
         tf.textAlignment = .center
         tf.translatesAutoresizingMaskIntoConstraints = false
         tf.addTarget(self, action: #selector(statusTextChanged) , for: .editingChanged )
+        tf.delegate = self
 
         return tf
         
@@ -159,6 +160,13 @@ class ProfileHeaderView: UIView {
         ])
     }
 
+//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//
+//            textField.shakeStatus()
+//
+//        return false
+//    }
+
     private func configure(title: String, image: UIImage) {
         profileLabel.text = title
         dogImageView.image = image
@@ -170,11 +178,30 @@ class ProfileHeaderView: UIView {
     }
 
     @objc private func buttonPressed() {
-        statusLabel.text = statusText
+        if statusText.count == 0 {
+            textField.shakeStatus()
+        } else {
+            statusLabel.text = statusText
+            
+        }
         self.endEditing(true)
     }
     
     @objc private func statusTextChanged(_ textField: UITextField) {
         statusText = textField.text ?? "error"
+    }
+}
+
+// анимация TextField при проверке на пустые поля
+extension UITextField {
+    func shakeStatus() {
+        let shakeAnimation = CABasicAnimation(keyPath: "position")
+        shakeAnimation.duration = 0.06
+        shakeAnimation.repeatCount = 5
+        shakeAnimation.autoreverses = true
+        shakeAnimation.fromValue = CGPoint(x: self.center.x - 4, y: self.center.y)
+        shakeAnimation.toValue = CGPoint(x: self.center.x + 4, y: self.center.y)
+        layer.add(shakeAnimation, forKey: "position")
+
     }
 }

@@ -8,7 +8,16 @@
 import Foundation
 import UIKit
 
-class PostTableViewCell: UITableViewCell {
+//protocol PostTableViewCellDelegate: AnyObject {
+//    func likeLabelTapped()
+//}
+
+class PostTableViewCell: UITableViewCell, UITextFieldDelegate {
+
+//    private let tapGestureRecognizer = UITapGestureRecognizer()
+//
+//    weak var delegate: PostTableViewCellDelegate?
+
 
     private let postAutorLabel: UILabel = {
         let autor = UILabel()
@@ -42,6 +51,8 @@ class PostTableViewCell: UITableViewCell {
         likeLabel.font = .systemFont(ofSize: 16)
         likeLabel.textColor = .black
         likeLabel.translatesAutoresizingMaskIntoConstraints = false
+        likeLabel.isUserInteractionEnabled = true
+        
         return likeLabel
     }()
 
@@ -68,6 +79,8 @@ class PostTableViewCell: UITableViewCell {
         contentView.addSubview(postTextLabel)
         contentView.addSubview(postLikeLabel)
         contentView.addSubview(postViewLabel)
+//        postLikeLabel.addGestureRecognizer(tapGestureRecognizer)
+//        tapGestureRecognizer.addTarget(self, action: #selector(likeTapGesture))
         
     }
 
@@ -109,4 +122,10 @@ class PostTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+//    @objc func likeTapGesture(_ gestureRecognizer: UITapGestureRecognizer) {
+//
+//        delegate?.likeLabelTapped()
+//        
+//    }
 }

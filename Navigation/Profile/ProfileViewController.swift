@@ -72,6 +72,14 @@ extension ProfileViewController: PreviewViewWithImageDelegate {
     }
 }
 
+//extension ProfileViewController: PostTableViewCellDelegate {
+//    func likeLabelTapped() {
+//        let tappedPostLike = publicationsArray[indexPath.row]
+//        post.likes += 1
+//    }
+//
+//    
+//}
 
 // UIDataSource
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
