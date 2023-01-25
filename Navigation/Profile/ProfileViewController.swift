@@ -15,7 +15,7 @@ class ProfileViewController: UIViewController {
         static let collectionID = "collectID"
     }
     
-    private let publicationsArray = PostProvider.getPost()
+    private var publicationsArray = PostProvider.getPost()
     private let headerView = ProfileHeaderView()
     private var arrayOfImages: [UIImage] = ImageProvider.getImages()
     
@@ -72,14 +72,20 @@ extension ProfileViewController: PreviewViewWithImageDelegate {
     }
 }
 
-//extension ProfileViewController: PostTableViewCellDelegate {
-//    func likeLabelTapped() {
-//        let tappedPostLike = publicationsArray[indexPath.row]
-//        post.likes += 1
-//    }
-//
-//    
-//}
+
+extension ProfileViewController: PostTableViewCellDelegate {
+    func likeLabelTapped(postID: Int) {
+        // 1. Найти пост в publicationsArray
+
+        let postIndex = publicationsArray.firstIndex(where: {postID == $0.postID})!
+        // 2. у этого поста поменять количество лайков
+        publicationsArray[postIndex].likes += 1
+        // 3. поменять кол-во лайков на экране (вызвать еще раз метод configure у ячейки)
+        tableView.reconfigureRows(at: [IndexPath(item: postIndex, section: 1)])
+    }
+
+    
+}
 
 // UIDataSource
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
@@ -105,6 +111,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.reuseIdentifire, for: indexPath) as! PostTableViewCell
             let post = publicationsArray[indexPath.row]
             cell.configure(post: post)
+            cell.delegate = self
             return cell
         }
     }

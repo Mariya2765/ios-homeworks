@@ -8,16 +8,17 @@
 import Foundation
 import UIKit
 
-//protocol PostTableViewCellDelegate: AnyObject {
-//    func likeLabelTapped()
-//}
+protocol PostTableViewCellDelegate: AnyObject {
+    func likeLabelTapped(postID: Int)
+}
 
 class PostTableViewCell: UITableViewCell, UITextFieldDelegate {
 
-//    private let tapGestureRecognizer = UITapGestureRecognizer()
-//
-//    weak var delegate: PostTableViewCellDelegate?
+    private let tapGestureRecognizer = UITapGestureRecognizer()
 
+    weak var delegate: PostTableViewCellDelegate?
+
+    private var postID: Int?
 
     private let postAutorLabel: UILabel = {
         let autor = UILabel()
@@ -79,8 +80,8 @@ class PostTableViewCell: UITableViewCell, UITextFieldDelegate {
         contentView.addSubview(postTextLabel)
         contentView.addSubview(postLikeLabel)
         contentView.addSubview(postViewLabel)
-//        postLikeLabel.addGestureRecognizer(tapGestureRecognizer)
-//        tapGestureRecognizer.addTarget(self, action: #selector(likeTapGesture))
+        postLikeLabel.addGestureRecognizer(tapGestureRecognizer)
+        tapGestureRecognizer.addTarget(self, action: #selector(likeTapGesture))
         
     }
 
@@ -111,21 +112,25 @@ class PostTableViewCell: UITableViewCell, UITextFieldDelegate {
 
 
     func configure(post: Post) {
+        self.postID = post.postID
 
         postImageView.image = UIImage(named: post.image)
         postAutorLabel.text = post.autor
         postTextLabel.text = post.description
         postLikeLabel.text = "Likes: \(post.likes)"
-        postViewLabel.text = "Views: \(post.likes)"
+        postViewLabel.text = "Views: \(post.views)"
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-//    @objc func likeTapGesture(_ gestureRecognizer: UITapGestureRecognizer) {
-//
-//        delegate?.likeLabelTapped()
-//        
-//    }
+    @objc func likeTapGesture(_ gestureRecognizer: UITapGestureRecognizer) {
+
+        if let id = postID {
+
+            delegate?.likeLabelTapped(postID: id)
+
+        }
+    }
 }
