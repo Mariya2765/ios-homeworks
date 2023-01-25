@@ -218,26 +218,24 @@ class LogInView: UIView, UITextFieldDelegate {
 
     }
 
-   
-
-
-
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.layer.backgroundColor = UIColor.clear.cgColor
         if textField.tag == 1 {
-
+            let isValid = textField.text?.isValidEmail() ?? false
+            print (isValid)
+            if !isValid {
             textField.shakeLogin()
+            }
         } else {
 
-            textField.shakeLogin()
+                textField.shakeLogin()
+
         }
         return false
     }
 }
 
-
-
-
+// анимация TextField при проверке на пустые поля
 extension UITextField {
     func shakeLogin() {
         let shakeAnimation = CABasicAnimation(keyPath: "position")
@@ -259,5 +257,142 @@ extension UIImage {
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return newImage!
+    }
+}
+
+// для проверки валидности email
+
+extension String {
+
+    func isValidEmail() -> Bool {
+        var state = 0 // переменная состояния
+        var idx = 0 // индекс
+        var ch: Character
+        var mark = 0
+        var local = ""
+
+        var domain = [String]()
+
+        // оформляем первую букву как "\0" и проверяем дальше
+        while state != -1 && idx <= self.count {
+            // условие выхода и прохождения через все буквы
+            if idx == self.count {
+                ch = "\0"
+            } else {
+                ch = self[idx]
+                if ch == "\0" {
+                    return false
+                }
+
+            }
+            switch state{
+            case 0:
+                if ((ch >= "a" && ch <= "z") || (ch >= "A" && ch <= "Z") || (ch >= "0" && ch <= "9") || ch == "_" || ch == "-" || ch == "+") {
+                    state = 1
+                    break
+                }
+            case 1:
+                if ((ch >= "a" && ch <= "z") || (ch >= "A" && ch <= "Z") || (ch >= "0" && ch <= "9") || ch == "_" || ch == "-" || ch == "+") {
+                    break
+            }
+                if ch == "." {
+                    state = 2
+                    break
+                }
+                if ch == "@" {
+                    local = self.subString(from: 0, to: idx - mark)
+                    mark = idx + 1
+                    state = 3
+                    break
+                }
+                state = -1
+            case 2:
+                if ((ch >= "a" && ch <= "z") || (ch >= "A" && ch <= "Z") || (ch >= "0" && ch <= "9") || ch == "_" || ch == "-" || ch == "+") {
+                    state = 1
+                    break
+        }
+                state = -1
+            case 3:
+                if ((ch >= "a" && ch <= "z") || (ch >= "A" && ch <= "Z") || (ch >= "0" && ch <= "9")) {
+                    state = 4
+                    break
+    }
+                state = -1
+            case 4:
+                if ((ch >= "a" && ch <= "z") || (ch >= "A" && ch <= "Z") || (ch >= "0" && ch <= "9")) {
+                    break
+}
+                if ch == "-" {
+                    state = 5
+                    break
+                }
+                if ch == "." {
+                    domain.append(self.subString(from: mark, to: idx))
+                    mark = idx + 1
+                    state = 5
+                    break
+                }
+                if ch == "\0" {
+                    domain.append(self.subString(from: mark, to: idx))
+                    state = 6
+                    break
+                }
+            case 5:
+                if ((ch >= "a" && ch <= "z") || (ch >= "A" && ch <= "Z") || (ch >= "0" && ch <= "9")) {
+                    state = 4
+                    break
+}
+                if ch == "." {
+                    break
+                }
+                state = -1
+            case 6:
+                break
+            default:
+                break
+        }
+            idx += 1
+
+    }
+        if state != 6 {
+            return false
+        }
+        if local.count > 64 {
+            return false
+        }
+        if self.count > 254 {
+            return false
+        }
+
+        idx = self.count - 1
+        while idx > 0 {
+            ch = self[idx]
+            if ch == "." && self.count - idx > 2 {
+                return true
+            }
+            if !((ch >= "a" && ch <= "z") || (ch >= "A" && ch <= "Z")) {
+                return false
+            }
+            idx -= 1
+        }
+        return true
+    }
+}
+
+extension StringProtocol {
+
+    subscript(offset: Int) -> Character {
+        self[self.index(at: offset)]
+    }
+
+    //получаем индекс
+    func subString(from: Int, to: Int) -> String {
+        let startIndex = self.index(at: from)
+        let endIndex = self.index(at: to)
+        return String(self[startIndex..<endIndex])
+    }
+
+    func index(at offset: Int) -> String.Index {
+        index(startIndex, offsetBy: offset)
     }
 }
