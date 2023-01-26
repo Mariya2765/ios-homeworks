@@ -74,10 +74,29 @@ extension ProfileViewController: PreviewViewWithImageDelegate {
 
 
 extension ProfileViewController: PostTableViewCellDelegate {
+    // увеличение просмотров
+    func postImageTapped(postID: Int) {
+        let postView = PostViewOnTap(frame: .init(
+            origin: .zero,
+            size: view.window?.frame.size ?? .zero
+        ))
+
+        view.window?.addSubview(postView)
+
+
+        let postIndex = publicationsArray.firstIndex(where: {postID == $0.postID})!
+        publicationsArray[postIndex].views += 1
+        tableView.reconfigureRows(at: [IndexPath(item: postIndex, section: 1)])
+        let post = publicationsArray[postIndex]
+        postView.configure(post: post)
+
+    }
+
     func likeLabelTapped(postID: Int) {
         // 1. Найти пост в publicationsArray
 
         let postIndex = publicationsArray.firstIndex(where: {postID == $0.postID})!
+    
         // 2. у этого поста поменять количество лайков
         publicationsArray[postIndex].likes += 1
         // 3. поменять кол-во лайков на экране (вызвать еще раз метод configure у ячейки)

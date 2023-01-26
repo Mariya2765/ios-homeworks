@@ -17,6 +17,7 @@
 		4CB6BA2C29436FF800F36804 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB6BA2B29436FF800F36804 /* LogInViewController.swift */; };
 		4CB6BA2E2943730B00F36804 /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB6BA2D2943730B00F36804 /* LogInView.swift */; };
 		4CB6BA702949F8A800F36804 /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB6BA6F2949F8A800F36804 /* PostTableViewCell.swift */; };
+		4CBC6E3E29829A3C00DB641C /* PostViewOnTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CBC6E3D29829A3C00DB641C /* PostViewOnTap.swift */; };
 		4CE7AF5A29339E58001C305B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CE7AF5929339E58001C305B /* AppDelegate.swift */; };
 		4CE7AF5C29339E58001C305B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CE7AF5B29339E58001C305B /* SceneDelegate.swift */; };
 		4CE7AF6329339E5B001C305B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4CE7AF6229339E5B001C305B /* Assets.xcassets */; };
@@ -38,6 +39,7 @@
 		4CB6BA2B29436FF800F36804 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		4CB6BA2D2943730B00F36804 /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
 		4CB6BA6F2949F8A800F36804 /* PostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
+		4CBC6E3D29829A3C00DB641C /* PostViewOnTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewOnTap.swift; sourceTree = "<group>"; };
 		4CE7AF5629339E58001C305B /* Navigation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Navigation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CE7AF5929339E58001C305B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4CE7AF5B29339E58001C305B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 				4C922B962955A5C100A24E3A /* PhotosViewController.swift */,
 				4C922B982959DB0800A24E3A /* ImageProvider.swift */,
 				4C502B842968BA1D00CC3CB2 /* PreviewWithImage.swift */,
+				4CBC6E3D29829A3C00DB641C /* PostViewOnTap.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -181,6 +184,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CBC6E3E29829A3C00DB641C /* PostViewOnTap.swift in Sources */,
 				4C2ADC072953098800135D33 /* PhotosCollectionViewCell .swift in Sources */,
 				4C502B852968BA1D00CC3CB2 /* PreviewWithImage.swift in Sources */,
 				4C2ADC032951A93600135D33 /* PhotosTableViewCell.swift in Sources */,

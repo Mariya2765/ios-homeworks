@@ -10,8 +10,8 @@ import UIKit
 class LogInViewController: UIViewController {
     private let logoView = LogInView()
 
-    var standartLogin = "123@list.ru"
-    var standartPassword = "1234567"
+    var standartLogin = "1234"
+    var standartPassword = "1234"
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -1,25 +1,15 @@
 //
-//  File.swift
+//  PostViewOnTap.swift
 //  Navigation
 //
-//  Created by Мария on 14.12.2022.
+//  Created by Мария on 26.01.2023.
 //
 
 import Foundation
 import UIKit
 
-
-protocol PostTableViewCellDelegate: AnyObject {
-    func likeLabelTapped(postID: Int)
-    func postImageTapped(postID: Int)
-}
-
-class PostTableViewCell: UITableViewCell, UITextFieldDelegate {
-
-    private let tapGestureRecognizer = UITapGestureRecognizer()
-
-    weak var delegate: PostTableViewCellDelegate?
-
+class PostViewOnTap: UIView {
+    
     private var postID: Int?
 
     private let postAutorLabel: UILabel = {
@@ -49,14 +39,13 @@ class PostTableViewCell: UITableViewCell, UITextFieldDelegate {
         postText.translatesAutoresizingMaskIntoConstraints = false
         return postText
     }()
-
     private let postLikeLabel: UILabel = {
         let likeLabel = UILabel()
         likeLabel.font = .systemFont(ofSize: 16)
         likeLabel.textColor = .black
         likeLabel.translatesAutoresizingMaskIntoConstraints = false
         likeLabel.isUserInteractionEnabled = true
-        
+
         return likeLabel
     }()
 
@@ -68,50 +57,68 @@ class PostTableViewCell: UITableViewCell, UITextFieldDelegate {
         return viewsLabel
     }()
 
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupMyCell()
+    lazy var backgroundView: UIView = {
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = .black.withAlphaComponent(0.7)
+        backgroundView.alpha = 0
+
+        return backgroundView
+
+    }()
+
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupMyView()
         addConstraints()
-        selectionStyle = .none
     }
 
     // Добавляем все элементы ячейки на contentView
-    func setupMyCell() {
+    func setupMyView() {
+        addSubview(backgroundView)
 
-        contentView.addSubview(postAutorLabel)
-        contentView.addSubview(postImageView)
-        contentView.addSubview(postTextLabel)
-        contentView.addSubview(postLikeLabel)
-        contentView.addSubview(postViewLabel)
-        postLikeLabel.addGestureRecognizer(tapGestureRecognizer)
-        tapGestureRecognizer.addTarget(self, action: #selector(likeTapGesture))
-        postImageView.addGestureRecognizer(tapGestureRecognizer)
-        tapGestureRecognizer.addTarget(self, action: #selector(postImageTapGesture))
-        
+        addSubview(postAutorLabel)
+        addSubview(postImageView)
+        addSubview(postTextLabel)
+        addSubview(postLikeLabel)
+        addSubview(postViewLabel)
+
+
     }
 
     func addConstraints() {
         NSLayoutConstraint.activate([
+            backgroundView.topAnchor.constraint(equalTo: self.topAnchor),
+            backgroundView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            backgroundView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            backgroundView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
 
-            postAutorLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-            postAutorLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            postAutorLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
+            postAutorLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+            postAutorLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+            postAutorLabel.bottomAnchor.constraint(equalTo: self.topAnchor, constant: 30),
 
-            postImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            postImageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             postImageView.topAnchor.constraint(equalTo: postAutorLabel.bottomAnchor, constant: 12),
-            postImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor),
+            postImageView.widthAnchor.constraint(equalTo: self.widthAnchor),
             postImageView.heightAnchor.constraint(equalTo: postImageView.widthAnchor),
 
             postTextLabel.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: 16),
-            postTextLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            postTextLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            postTextLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+            postTextLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+            postTextLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -200),
+
 
             postLikeLabel.topAnchor.constraint(equalTo: postTextLabel.bottomAnchor, constant: 16),
-            postLikeLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            postLikeLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
+            postLikeLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+            postLikeLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16),
+
 
             postViewLabel.topAnchor.constraint(equalTo: postTextLabel.bottomAnchor, constant: 16),
-            postViewLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            postViewLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
+            postViewLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+            postViewLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16)
+            
+
         ])
     }
 
@@ -125,23 +132,10 @@ class PostTableViewCell: UITableViewCell, UITextFieldDelegate {
         postLikeLabel.text = "Likes: \(post.likes)"
         postViewLabel.text = "Views: \(post.views)"
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    @objc func likeTapGesture(_ gestureRecognizer: UITapGestureRecognizer) {
-
-        if let id = postID {
-
-            delegate?.likeLabelTapped(postID: id)
-
-        }
-    }
-
-    @objc func postImageTapGesture(_ gestureRecognizer: UITapGestureRecognizer) {
-        if let id = postID {
-            delegate?.postImageTapped(postID: id)
-        }
-    }
 }
+
