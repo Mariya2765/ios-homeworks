@@ -12,6 +12,7 @@ class PostViewOnTap: UIView {
     
     private var postID: Int?
 
+
     private let postAutorLabel: UILabel = {
         let autor = UILabel()
 //        autor.text = "Hello"
@@ -25,7 +26,7 @@ class PostViewOnTap: UIView {
     private let postImageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFit
-        image.backgroundColor = .black
+        image.backgroundColor = .white
         image.translatesAutoresizingMaskIntoConstraints = false
         image.isUserInteractionEnabled = true
         return image
@@ -57,16 +58,6 @@ class PostViewOnTap: UIView {
         return viewsLabel
     }()
 
-    lazy var backgroundView: UIView = {
-        let backgroundView = UIView()
-        backgroundView.backgroundColor = .black.withAlphaComponent(0.7)
-        backgroundView.alpha = 0
-
-        return backgroundView
-
-    }()
-
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupMyView()
@@ -75,7 +66,7 @@ class PostViewOnTap: UIView {
 
     // Добавляем все элементы ячейки на contentView
     func setupMyView() {
-        addSubview(backgroundView)
+
 
         addSubview(postAutorLabel)
         addSubview(postImageView)
@@ -88,12 +79,8 @@ class PostViewOnTap: UIView {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-            backgroundView.topAnchor.constraint(equalTo: self.topAnchor),
-            backgroundView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            backgroundView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            backgroundView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
 
-            postAutorLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
+            postAutorLabel.topAnchor.constraint(equalTo: self.topAnchor),
             postAutorLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
             postAutorLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
             postAutorLabel.bottomAnchor.constraint(equalTo: self.topAnchor, constant: 30),
