@@ -16,7 +16,8 @@ protocol PostTableViewCellDelegate: AnyObject {
 
 class PostTableViewCell: UITableViewCell, UITextFieldDelegate {
 
-    private let tapGestureRecognizer = UITapGestureRecognizer()
+    private let tapGestureRecognizerLikes = UITapGestureRecognizer()
+    private let tapGestureRecognizerViews = UITapGestureRecognizer()
 
     weak var delegate: PostTableViewCellDelegate?
 
@@ -83,10 +84,10 @@ class PostTableViewCell: UITableViewCell, UITextFieldDelegate {
         contentView.addSubview(postTextLabel)
         contentView.addSubview(postLikeLabel)
         contentView.addSubview(postViewLabel)
-        postLikeLabel.addGestureRecognizer(tapGestureRecognizer)
-        tapGestureRecognizer.addTarget(self, action: #selector(likeTapGesture))
-        postImageView.addGestureRecognizer(tapGestureRecognizer)
-        tapGestureRecognizer.addTarget(self, action: #selector(postImageTapGesture))
+        postLikeLabel.addGestureRecognizer(tapGestureRecognizerLikes)
+        tapGestureRecognizerLikes.addTarget(self, action: #selector(likeTapGesture))
+        postImageView.addGestureRecognizer(tapGestureRecognizerViews)
+        tapGestureRecognizerViews.addTarget(self, action: #selector(postImageTapGesture))
         
     }
 

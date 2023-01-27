@@ -138,8 +138,10 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 0 {
         let newViewController = PhotosViewController(array: arrayOfImages)
         navigationController?.pushViewController(newViewController, animated: true)
+    }
     }
 
 }
