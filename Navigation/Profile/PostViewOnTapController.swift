@@ -11,14 +11,13 @@ import UIKit
 
 class PostViewOnTapController: UIViewController {
     private let postView = PostViewOnTap()
-//    private var postID: Int?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         view.addSubview(postView)
         postView.translatesAutoresizingMaskIntoConstraints = false
         
-
         addConstraints()
     }
     func addConstraints() {
@@ -36,16 +35,4 @@ class PostViewOnTapController: UIViewController {
 
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
-        super.viewWillAppear(animated)
-       
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
-        super.viewWillDisappear(animated)
-    }
-
-    
 }

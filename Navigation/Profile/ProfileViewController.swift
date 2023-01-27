@@ -74,14 +74,20 @@ extension ProfileViewController: PreviewViewWithImageDelegate {
 
 
 extension ProfileViewController: PostTableViewCellDelegate {
+
+// увеличение количества лайков
+    func likeLabelTapped(postID: Int) {
+        // 1. Найти пост в publicationsArray
+
+        let postIndex = publicationsArray.firstIndex(where: {postID == $0.postID})!
+        // 2. у этого поста поменять количество лайков
+        publicationsArray[postIndex].likes += 1
+        // 3. поменять кол-во лайков на экране (вызвать еще раз метод configure у ячейки)
+        tableView.reconfigureRows(at: [IndexPath(item: postIndex, section: 1)])
+    }
+
     // увеличение просмотров
     func postImageTapped(postID: Int) {
-//        let postView = PostViewOnTap(frame: .init(
-//            origin: .zero,
-//            size: view.window?.frame.size ?? .zero
-//        ))
-//
-//        view.window?.addSubview(postView)
 
         let postViewController = PostViewOnTapController()
         navigationController?.pushViewController(postViewController, animated: true)
@@ -89,23 +95,9 @@ extension ProfileViewController: PostTableViewCellDelegate {
         let postIndex = publicationsArray.firstIndex(where: {postID == $0.postID})!
         publicationsArray[postIndex].views += 1
         tableView.reconfigureRows(at: [IndexPath(item: postIndex, section: 1)])
-//        let post = publicationsArray[postID]
-//        postView.configure(post: post)
+
         postViewController.configure(post: publicationsArray[postID])
     }
-
-    func likeLabelTapped(postID: Int) {
-        // 1. Найти пост в publicationsArray
-
-        let postIndex = publicationsArray.firstIndex(where: {postID == $0.postID})!
-    
-        // 2. у этого поста поменять количество лайков
-        publicationsArray[postIndex].likes += 1
-        // 3. поменять кол-во лайков на экране (вызвать еще раз метод configure у ячейки)
-        tableView.reconfigureRows(at: [IndexPath(item: postIndex, section: 1)])
-    }
-
-    
 }
 
 // UIDataSource

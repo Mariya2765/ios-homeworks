@@ -140,8 +140,11 @@ class PostTableViewCell: UITableViewCell, UITextFieldDelegate {
     }
 
     @objc func postImageTapGesture(_ gestureRecognizer: UITapGestureRecognizer) {
+
         if let id = postID {
+
             delegate?.postImageTapped(postID: id)
+            
         }
     }
 }

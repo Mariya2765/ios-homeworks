@@ -12,10 +12,9 @@ class PostViewOnTap: UIView {
     
     private var postID: Int?
 
-
     private let postAutorLabel: UILabel = {
         let autor = UILabel()
-//        autor.text = "Hello"
+        //        autor.text = "Hello"
         autor.font = .systemFont(ofSize: 20, weight: .bold)
         autor.textColor = .black
         autor.numberOfLines = 2
@@ -67,33 +66,31 @@ class PostViewOnTap: UIView {
     // Добавляем все элементы ячейки на contentView
     func setupMyView() {
 
-
         addSubview(postAutorLabel)
         addSubview(postImageView)
         addSubview(postTextLabel)
         addSubview(postLikeLabel)
         addSubview(postViewLabel)
 
-
     }
 
     func addConstraints() {
         NSLayoutConstraint.activate([
 
-            postAutorLabel.topAnchor.constraint(equalTo: self.topAnchor),
+            postAutorLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
             postAutorLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
             postAutorLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
             postAutorLabel.bottomAnchor.constraint(equalTo: self.topAnchor, constant: 30),
 
             postImageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            postImageView.topAnchor.constraint(equalTo: postAutorLabel.bottomAnchor, constant: 12),
+            postImageView.topAnchor.constraint(equalTo: postAutorLabel.bottomAnchor, constant: 10),
             postImageView.widthAnchor.constraint(equalTo: self.widthAnchor),
             postImageView.heightAnchor.constraint(equalTo: postImageView.widthAnchor),
 
             postTextLabel.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: 16),
             postTextLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
             postTextLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-            postTextLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -200),
+            postTextLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -100),
 
 
             postLikeLabel.topAnchor.constraint(equalTo: postTextLabel.bottomAnchor, constant: 16),
@@ -104,7 +101,6 @@ class PostViewOnTap: UIView {
             postViewLabel.topAnchor.constraint(equalTo: postTextLabel.bottomAnchor, constant: 16),
             postViewLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
             postViewLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16)
-            
 
         ])
     }
