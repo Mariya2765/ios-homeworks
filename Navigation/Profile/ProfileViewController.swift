@@ -144,4 +144,29 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     }
     }
 
+    // удаление ячейки
+
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+
+        let action = UIContextualAction(style: .normal, title: "Редактировать") {_,_,_ in
+
+        }
+
+        let action1 = UIContextualAction(style: .destructive, title: "Отменить") {_,_,_ in
+
+        }
+        return UISwipeActionsConfiguration(actions: [action, action1])
+
+    }
+
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+
+        let action = UIContextualAction(style: .destructive, title: "delete"){_,_,_ in
+            self.publicationsArray.remove(at: indexPath.item)
+            self.tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+        return UISwipeActionsConfiguration(actions: [action])
+
+    }
+
 }
