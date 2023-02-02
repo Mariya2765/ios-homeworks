@@ -8,12 +8,22 @@
 import Foundation
 import UIKit
 
+protocol PhotoTableViewCellDelegate: AnyObject {
+//    func photoWasTapped(photoID: Int)
+    func photoWasTapped()
+}
+
 class PhotosTableViewCell: UITableViewCell, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     private enum Constants {
         static let reuseIdentifier = "collection_cell"
     }
 
+    weak var delegate: PhotoTableViewCellDelegate?
+
+    private var photoID: Int?
+
+    private let tapGestureRecognizerPhoto = UITapGestureRecognizer()
     private var imagesArray: [UIImage] = []
 
     private let titleLabel: UILabel = {
@@ -66,6 +76,10 @@ class PhotosTableViewCell: UITableViewCell, UICollectionViewDelegateFlowLayout, 
         contentView.addSubview(titleLabel)
         contentView.addSubview(imageViewArrow)
         contentView.addSubview(collectionView)
+        imageViewArrow.addGestureRecognizer(tapGestureRecognizerPhoto)
+        tapGestureRecognizerPhoto.addTarget(self, action: #selector(photoTapGesture))
+
+
     }
 
     func addConstraints() {
@@ -127,11 +141,42 @@ class PhotosTableViewCell: UITableViewCell, UICollectionViewDelegateFlowLayout, 
         var imagesInTableView: [UIImage] = []
         imagesInTableView.insert(contentsOf: imagesArray[0...3], at: 0)
         cell.configure(image: imagesInTableView[indexPath.row], needForCorners: true)
+        
+        
         return cell
     }
 
+
+
+
+    
+//        let photoViewController = PhotoOnTapViewController()
+//                navigationController?.pushViewController(photoViewController, animated: true)
+
+//    }
+        
+    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+//    func  configure(imagesArray: ImageProvider) {
+//        self.photoID = imagesArray
+    //   //    View =  != nilimagesArray
+//   // self.postID = post.postID
+//   //
+//   //
+//       }
+
+    @objc func photoTapGesture(_ gestureRecognizer: UITapGestureRecognizer) {
+        print ("photo was tapped")
+
+//        if let id = photoID {
+//
+            delegate?.photoWasTapped()
+//
+//        }
     }
 
 }
