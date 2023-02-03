@@ -87,9 +87,16 @@ class PhotosViewController: UIViewController, UICollectionViewDelegateFlowLayout
         return cell
     }
 
+// открытие PhotoOnTapViewController по нажатию на ячейку коллекции
 
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("cell was tapped")
+        let photoViewController = PhotoOnTapViewController(array: arrayOfImages)
+        navigationController?.pushViewController(photoViewController, animated: true)
+        photoViewController.photoView.imageView.image = arrayOfImages[indexPath.row]
+    }
 
-   private func sizeOfCollectionView() -> CGSize {
+    private func sizeOfCollectionView() -> CGSize {
         let numberOfCells: CGFloat = 3
         let offsetBetweenCells: CGFloat = 8
         let offsetFromCellToScreen: CGFloat = 8
@@ -100,33 +107,3 @@ class PhotosViewController: UIViewController, UICollectionViewDelegateFlowLayout
     }
 }
 
-extension PhotosViewController: PhotoTableViewCellDelegate {
-    func photoWasTapped() {
-        let photoViewController = PhotoOnTapViewController()
-                navigationController?.pushViewController(photoViewController, animated: true)
-    }
-
-}
-
-
-
-    
-//    func likeLabelTapped(postID: Int) {
-//        // 1. Найти пост в publicationsArray
-//
-//        let postIndex = publicationsArray.firstIndex(where: {postID == $0.postID})!
-//        // 2. у этого поста поменять количество лайков
-//        publicationsArray[postIndex].likes += 1
-//        // 3. поменять кол-во лайков на экране (вызвать еще раз метод configure у ячейки)
-//        tableView.reconfigureRows(at: [IndexPath(item: postIndex, section: 1)])
-//    }
-
-
-
-//        let photoViewController = PhotoOnTapViewController()
-//        navigationController?.pushViewController(photoViewController, animated: true)
-//
-//        delegate?.photoWasTapped(self, didSelectItemAt: IndexPath)
-
-
-//}

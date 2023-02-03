@@ -9,13 +9,27 @@ import Foundation
 import UIKit
 
 class PhotoOnTapViewController: UIViewController {
-    private let photoView = PostViewOnTap()
+     let photoView = PhotoViewOnTap()
+    
+//сейчас конструктор создала для передачи фото в PhotosViewController
+    private var arrayOfImages: [UIImage]
+    
+    init(array: [UIImage]) {
+        self.arrayOfImages = array
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         view.addSubview(photoView)
         photoView.translatesAutoresizingMaskIntoConstraints = false
+
+        navigationItem.title = "Photo"
 
         addConstraints()
     }

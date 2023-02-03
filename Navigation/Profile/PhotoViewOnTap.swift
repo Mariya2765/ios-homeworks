@@ -13,8 +13,8 @@ class PhotoViewOnTap: UIView {
     private var imageID: Int?
 
     private var arrayOfImages: [UIImage] = ImageProvider.getImages()
-
-    private var imageView: UIImageView = {
+    
+     var imageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFit
         image.backgroundColor = .white
@@ -38,9 +38,6 @@ class PhotoViewOnTap: UIView {
 
     func addConstraints() {
         NSLayoutConstraint.activate([
-
-//            imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-//            imageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
 
             imageView.topAnchor.constraint(equalTo: self.topAnchor),
             imageView.widthAnchor.constraint(equalTo: self.widthAnchor),
