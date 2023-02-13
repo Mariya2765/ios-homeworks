@@ -11,7 +11,7 @@ import UIKit
 
 class PostViewOnTapController: UIViewController {
     private let postView = PostViewOnTap()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -28,11 +28,11 @@ class PostViewOnTapController: UIViewController {
             postView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
-
+    
     func configure(post: Post) {
-
+        
         postView.configure(post: post)
-
+        
     }
-
+    
 }

@@ -11,10 +11,6 @@ import UIKit
 
 class LogInView: UIView, UITextFieldDelegate {
 
-
-//    private var pass = "123"
-   
-
     var logoImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "logo")
@@ -198,8 +194,6 @@ class LogInView: UIView, UITextFieldDelegate {
         logoImage.image = image
     }
 
-    
-
     @objc func tfWasChanged(_textField: UITextField) {
         let passwordTextCount = passwordTextField.text?.count
         if let tc = passwordTextCount {
@@ -223,10 +217,10 @@ class LogInView: UIView, UITextFieldDelegate {
             let isValid = textField.text?.isValidEmail() ?? false
             print (isValid)
             if !isValid {
-            textField.shakeLogin()
+                textField.shakeLogin()
             }
         } else {
-                textField.shakeLogin()
+            textField.shakeLogin()
         }
         return false
     }
@@ -242,7 +236,7 @@ extension UITextField {
         shakeAnimation.fromValue = CGPoint(x: self.center.x - 4, y: self.center.y)
         shakeAnimation.toValue = CGPoint(x: self.center.x + 4, y: self.center.y)
         layer.add(shakeAnimation, forKey: "position")
-  
+
     }
 }
 

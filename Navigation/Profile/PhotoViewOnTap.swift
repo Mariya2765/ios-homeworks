@@ -9,8 +9,8 @@ import Foundation
 import UIKit
 
 class PhotoViewOnTap: UIView {
-
-     var imageView: UIImageView = {
+    
+    var imageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFit
         image.backgroundColor = .white
@@ -18,23 +18,23 @@ class PhotoViewOnTap: UIView {
         image.isUserInteractionEnabled = true
         return image
     }()
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupMyView()
         addConstraints()
     }
-
+    
     // Добавляем все элементы ячейки на contentView
     func setupMyView() {
-
+        
         addSubview(imageView)
-
+        
     }
-
+    
     func addConstraints() {
         NSLayoutConstraint.activate([
-
+            
             imageView.topAnchor.constraint(equalTo: self.topAnchor),
             imageView.widthAnchor.constraint(equalTo: self.widthAnchor),
             imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor),
@@ -42,11 +42,11 @@ class PhotoViewOnTap: UIView {
             imageView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
 }
 
 

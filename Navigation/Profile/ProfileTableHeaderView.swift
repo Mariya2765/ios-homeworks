@@ -13,23 +13,23 @@ protocol ProfileHeaderViewDelegate: AnyObject {
 }
 
 class ProfileHeaderView: UIView, UITextFieldDelegate {
-
+    
     private let tapGestureRecognizer = UITapGestureRecognizer()
-
+    
     weak var delegate: ProfileHeaderViewDelegate?
-
+    
     private var statusText: String = ""
-
+    
     private let backgroundView: UIView = {
         let deactiveView = UIView()
         deactiveView.frame = CGRect(x: 0, y: 0, width: 200, height: 500)
         deactiveView.backgroundColor = .systemGray
         deactiveView.alpha = 0
         deactiveView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         return deactiveView
     }()
-
+    
     let statusLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14)
@@ -53,9 +53,9 @@ class ProfileHeaderView: UIView, UITextFieldDelegate {
         button.setTitleColor(.lightGray, for: .highlighted)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
-
+        
         return button
-
+        
     }()
     
     private lazy var textField: UITextField = {
@@ -70,7 +70,7 @@ class ProfileHeaderView: UIView, UITextFieldDelegate {
         tf.translatesAutoresizingMaskIntoConstraints = false
         tf.addTarget(self, action: #selector(statusTextChanged) , for: .editingChanged )
         tf.delegate = self
-
+        
         return tf
         
     }()
@@ -98,18 +98,18 @@ class ProfileHeaderView: UIView, UITextFieldDelegate {
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.isUserInteractionEnabled = true
-
+        
         return imageView
         
     }()
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         backgroundColor = .lightGray
         addElements()
         addConstraints()
-
+        
     }
     
     required init?(coder: NSCoder) {
@@ -131,15 +131,15 @@ class ProfileHeaderView: UIView, UITextFieldDelegate {
         tapGestureRecognizer.addTarget(self, action: #selector(handTapGesture))
     }
     
-   private func addConstraints() {
-
+    private func addConstraints() {
+        
         NSLayoutConstraint.activate([
-
+            
             dogImageView.widthAnchor.constraint(equalToConstant: 110),
             dogImageView.heightAnchor.constraint(equalToConstant: 110),
             dogImageView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16),
             dogImageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
-
+            
             profileLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 27),
             profileLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 150),
             profileLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
@@ -159,24 +159,17 @@ class ProfileHeaderView: UIView, UITextFieldDelegate {
             textField.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
-
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//
-//            textField.shakeStatus()
-//
-//        return false
-//    }
-
+    
     private func configure(title: String, image: UIImage) {
         profileLabel.text = title
         dogImageView.image = image
     }
-
+    
     @objc func handTapGesture(_ gestureRecognizer: UITapGestureRecognizer) {
         dogImageView.isHidden = true
         delegate?.dogImageViewTapped()
     }
-
+    
     @objc private func buttonPressed() {
         if statusText.count == 0 {
             textField.shakeStatus()
@@ -202,6 +195,6 @@ extension UITextField {
         shakeAnimation.fromValue = CGPoint(x: self.center.x - 4, y: self.center.y)
         shakeAnimation.toValue = CGPoint(x: self.center.x + 4, y: self.center.y)
         layer.add(shakeAnimation, forKey: "position")
-
+        
     }
 }

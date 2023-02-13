@@ -9,7 +9,7 @@ import UIKit
 
 class LogInViewController: UIViewController {
     private let logoView = LogInView()
-
+    
     var standartLogin = "1234"
     var standartPassword = "1234"
     
@@ -18,10 +18,7 @@ class LogInViewController: UIViewController {
         view.backgroundColor = .white
         view.addSubview(logoView)
         logoView.logInButton.addTarget(self, action: #selector(logInButtonAction), for: .touchUpInside)
-        
         logoView.translatesAutoresizingMaskIntoConstraints = false
-
-        
         addConstraints()
     }
     
@@ -39,22 +36,22 @@ class LogInViewController: UIViewController {
         super.viewWillAppear(animated)
         subscribeKeyboardEvents()
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillDisappear(animated)
     }
-
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         NotificationCenter.default.removeObserver(self)
     }
-
+    
     func subscribeKeyboardEvents() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-
+    
     // AlertController
     func presentAlertController() {
         let alertController = UIAlertController(title: "Внимание", message: "Неверный логин или пароль", preferredStyle: .alert)
@@ -62,7 +59,7 @@ class LogInViewController: UIViewController {
         alertController.addAction(.init(title: "cancel", style: .cancel))
         present(alertController, animated: true)
     }
-
+    
     @objc private func logInButtonAction() {
         let profileVc = ProfileViewController()
         if logoView.loginTextField.text == standartLogin && logoView.passwordTextField.text == standartPassword {
@@ -70,8 +67,6 @@ class LogInViewController: UIViewController {
         } else {
             presentAlertController()
         }
-
-
     }
     
     @objc func keyboardWillShow(_ notification: NSNotification) {
@@ -86,7 +81,5 @@ class LogInViewController: UIViewController {
         self.logoView.scrollView.contentInset = .zero
         self.logoView.scrollView.scrollIndicatorInsets = .zero
     }
-
-
 }
 
