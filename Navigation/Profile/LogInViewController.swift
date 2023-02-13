@@ -10,14 +10,15 @@ import UIKit
 class LogInViewController: UIViewController {
     private let logoView = LogInView()
     
+    var standartLogin = "1234"
+    var standartPassword = "1234"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         view.addSubview(logoView)
         logoView.logInButton.addTarget(self, action: #selector(logInButtonAction), for: .touchUpInside)
-        
         logoView.translatesAutoresizingMaskIntoConstraints = false
-        
         addConstraints()
     }
     
@@ -35,25 +36,37 @@ class LogInViewController: UIViewController {
         super.viewWillAppear(animated)
         subscribeKeyboardEvents()
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillDisappear(animated)
     }
-
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         NotificationCenter.default.removeObserver(self)
     }
-
+    
     func subscribeKeyboardEvents() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-
+    
+    // AlertController
+    func presentAlertController() {
+        let alertController = UIAlertController(title: "Внимание", message: "Неверный логин или пароль", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "ok", style: .default, handler: { _ in print()}))
+        alertController.addAction(.init(title: "cancel", style: .cancel))
+        present(alertController, animated: true)
+    }
+    
     @objc private func logInButtonAction() {
         let profileVc = ProfileViewController()
-        navigationController?.pushViewController(profileVc, animated: true)
+        if logoView.loginTextField.text == standartLogin && logoView.passwordTextField.text == standartPassword {
+            navigationController?.pushViewController(profileVc, animated: true)
+        } else {
+            presentAlertController()
+        }
     }
     
     @objc func keyboardWillShow(_ notification: NSNotification) {
@@ -69,3 +82,4 @@ class LogInViewController: UIViewController {
         self.logoView.scrollView.scrollIndicatorInsets = .zero
     }
 }
+

@@ -9,9 +9,9 @@ import UIKit
 
 
 class FeedViewController: UIViewController {
-    var post = Post(autor: "123", description: "14", image: "tree", likes: 3, views: 7)
+    var post = Post(postID: 0, autor: "123", description: "14", image: "tree", likes: 3, views: 7)
     private let stackView = UIStackView()
-
+    
     private let postButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .systemBlue
@@ -27,16 +27,16 @@ class FeedViewController: UIViewController {
         button.setTitle("New post", for: .normal)
         return button
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemMint
         self.view.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         stackView.addArrangedSubview(postButton)
         stackView.addArrangedSubview(newPostButton)
-
+        
         stackView.axis = .vertical
         stackView.distribution = .fillProportionally
         stackView.spacing = 10

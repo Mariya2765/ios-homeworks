@@ -28,13 +28,13 @@ class InfoViewController: UIViewController {
             UIAlertAction(title: "Да", style: .default, handler: { _ in
                 print("yes")
             }
-                         )
+          )
         )
         alertController.addAction(
             UIAlertAction(title: "Нет", style: .default, handler: { _ in
                 print("no")
             }
-                         )
+          )
         )
         alertController.addAction(.init(title: "", style: .cancel))
         present(alertController, animated: true)

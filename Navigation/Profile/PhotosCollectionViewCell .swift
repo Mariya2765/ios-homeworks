@@ -8,12 +8,12 @@
 import UIKit
 
 class PhotosCollectionViewCell: UICollectionViewCell {
-
+    
     private let photoImageView = UIImageView()
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-
+        
         contentView.addSubview(photoImageView)
         photoImageView.translatesAutoresizingMaskIntoConstraints = false
         photoImageView.contentMode = .scaleAspectFill
@@ -25,11 +25,11 @@ class PhotosCollectionViewCell: UICollectionViewCell {
             photoImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     func configure(image: UIImage, needForCorners: Bool) {
         photoImageView.image = image
         photoImageView.layer.cornerRadius = needForCorners ? 6 : 0
