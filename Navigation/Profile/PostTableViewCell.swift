@@ -25,7 +25,6 @@ class PostTableViewCell: UITableViewCell, UITextFieldDelegate {
     
     private let postAutorLabel: UILabel = {
         let autor = UILabel()
-        //        autor.text = "Hello"
         autor.font = .systemFont(ofSize: 20, weight: .bold)
         autor.textColor = .black
         autor.numberOfLines = 2

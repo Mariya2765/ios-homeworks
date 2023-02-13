@@ -23,8 +23,5 @@ class PostViewController: UIViewController {
     @objc private func barButtonAction() {
         let infoVc = InfoViewController()
         present(infoVc, animated: true)
-    }
-
-
-    
+    }  
 }

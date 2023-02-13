@@ -8,7 +8,6 @@
 import Foundation
 import UIKit
 
-
 class LogInView: UIView, UITextFieldDelegate {
 
     var logoImage: UIImageView = {

@@ -53,6 +53,10 @@ class PhotosTableViewCell: UITableViewCell, UICollectionViewDelegateFlowLayout, 
         return collectionView
         
     }()
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -132,12 +136,8 @@ class PhotosTableViewCell: UITableViewCell, UICollectionViewDelegateFlowLayout, 
         var imagesInTableView: [UIImage] = []
         imagesInTableView.insert(contentsOf: imagesArray[0...3], at: 0)
         cell.configure(image: imagesInTableView[indexPath.row], needForCorners: true)
-        
-        
         return cell
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+
 }
