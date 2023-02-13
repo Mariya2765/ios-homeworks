@@ -91,9 +91,9 @@ class PhotosViewController: UIViewController, UICollectionViewDelegateFlowLayout
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("cell was tapped")
-        let photoViewController = PhotoOnTapViewController(array: arrayOfImages)
+        let photoViewController = PhotoOnTapViewController()
+        photoViewController.configure(image: arrayOfImages[indexPath.row])
         navigationController?.pushViewController(photoViewController, animated: true)
-        photoViewController.photoView.imageView.image = arrayOfImages[indexPath.row]
     }
 
     private func sizeOfCollectionView() -> CGSize {

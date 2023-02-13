@@ -10,10 +10,6 @@ import UIKit
 
 class PhotoViewOnTap: UIView {
 
-    private var imageID: Int?
-
-    private var arrayOfImages: [UIImage] = ImageProvider.getImages()
-    
      var imageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFit

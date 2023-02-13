@@ -9,19 +9,16 @@ import Foundation
 import UIKit
 
 class PhotoOnTapViewController: UIViewController {
-     let photoView = PhotoViewOnTap()
+    private let photoView = PhotoViewOnTap()
     
 //сейчас конструктор создала для передачи фото в PhotosViewController
-    private var arrayOfImages: [UIImage]
+//    private var image: UIImage
     
-    init(array: [UIImage]) {
-        self.arrayOfImages = array
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+//    init(image: UIImage) {
+//        self.image = image
+//        super.init(nibName: nil, bundle: nil)
+//    }
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,4 +39,7 @@ class PhotoOnTapViewController: UIViewController {
         ])
     }
 
+    func configure(image: UIImage) {
+        photoView.imageView.image = image
+    }
 }
